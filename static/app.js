@@ -1183,6 +1183,40 @@ function setupUIListeners() {
   btnLang.addEventListener('click', () => { setLanguage(currentLang === 'en' ? 'tr' : 'en'); });
   document.getElementById('btnAddHistoryCrop')?.addEventListener('click', addHistoryCropRow);
 
+  // Theme Toggle (Dark / Light Mode)
+  const btnTheme = document.getElementById('btnThemeToggle');
+  const iconMoon = btnTheme?.querySelector('.icon-moon');
+  const iconSun = btnTheme?.querySelector('.icon-sun');
+
+  function applyTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    try { localStorage.setItem('sage_theme', theme); } catch (e) {}
+    if (iconMoon && iconSun) {
+      if (theme === 'dark') {
+        iconMoon.style.display = 'none';
+        iconSun.style.display = 'inline-block';
+      } else {
+        iconMoon.style.display = 'inline-block';
+        iconSun.style.display = 'none';
+      }
+    }
+  }
+
+  btnTheme?.addEventListener('click', () => {
+    const current = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+    applyTheme(current === 'dark' ? 'light' : 'dark');
+  });
+
+  // Load saved theme or system preference
+  try {
+    const savedTheme = localStorage.getItem('sage_theme');
+    if (savedTheme) {
+      applyTheme(savedTheme);
+    } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      applyTheme('dark');
+    }
+  } catch (e) {}
+
   // SAGE Introduction Modal Listeners
   const sageModal = document.getElementById('sageModal');
   const btnOverview = document.getElementById('btnOverviewModal');

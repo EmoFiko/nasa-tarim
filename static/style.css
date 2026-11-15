@@ -44,6 +44,81 @@
   --canvas: var(--c-surface);
 }
 
+/* Dark Theme Palette (Deep Carbon & Night Agriculture) */
+[data-theme="dark"] {
+  --c-earth-deep: #ecf1eb;
+  --c-earth-body: #cfd8ce;
+  --c-earth-muted: #8d9e8e;
+  --c-field-canvas: #121612;
+  --c-surface: #1a201a;
+  --c-surface-hover: #222a22;
+  --c-border: #293429;
+  --c-border-strong: #384738;
+
+  --c-crop-green: #48a664;
+  --c-crop-green-tint: #182b1d;
+  --c-amber-grain: #e09b3d;
+  --c-amber-tint: #2d2417;
+  --c-water-blue: #3d9bb5;
+  --c-water-tint: #14272e;
+  --c-risk-red: #e05d4b;
+  --c-risk-tint: #331a17;
+
+  --border: var(--c-border);
+  --border-strong: var(--c-border-strong);
+  --peat: var(--c-earth-deep);
+  --muted: var(--c-earth-muted);
+  --crop-green: var(--c-crop-green);
+  --canvas: var(--c-surface);
+}
+
+[data-theme="dark"] .leaflet-layer,
+[data-theme="dark"] .leaflet-control-zoom-in,
+[data-theme="dark"] .leaflet-control-zoom-out,
+[data-theme="dark"] .leaflet-control-attribution {
+  filter: brightness(0.85) invert(1) contrast(3) hue-rotate(200deg) saturate(0.35) brightness(0.7);
+}
+
+[data-theme="dark"] .drought-risk-card {
+  background: #252016;
+  border-color: #5c441c;
+}
+
+[data-theme="dark"] .income-estimate-card {
+  background: #17241a;
+  border-color: #27472d;
+}
+
+[data-theme="dark"] .si-interpretation {
+  background: #221d15;
+}
+
+[data-theme="dark"] .prov-tag-esa {
+  color: #79a6d2;
+  background: #152433;
+  border-color: #264461;
+}
+
+[data-theme="dark"] .prov-tag-nasa {
+  color: #72c79b;
+  background: #132b1d;
+  border-color: #204d33;
+}
+
+[data-theme="dark"] .field-select,
+[data-theme="dark"] .field-input,
+[data-theme="dark"] .choice-pill {
+  background: #161c16;
+  color: #ecf1eb;
+  border-color: #2e3a2e;
+}
+
+[data-theme="dark"] .choice-pill.active {
+  background: var(--c-crop-green);
+  color: #ffffff;
+  border-color: var(--c-crop-green);
+}
+
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -101,6 +176,24 @@ body {
   border: 1px solid #c2e0c8;
   padding: 2px 8px;
   border-radius: var(--radius-sharp);
+}
+
+.theme-toggle-btn {
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  color: var(--c-earth-deep);
+  border-radius: var(--radius-sharp);
+  padding: 7px 9px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+}
+
+.theme-toggle-btn:hover {
+  border-color: var(--c-crop-green);
+  color: var(--c-crop-green);
 }
 
 .nav-guide-btn {
