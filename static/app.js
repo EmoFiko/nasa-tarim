@@ -128,6 +128,28 @@ const I18N = {
     feat_3_desc: 'Calculates decare-level harvest volume and gross farm revenue based on regional crop market pricing.',
     feat_4_title: 'Soil Erosion Shield (RUSLE)',
     feat_4_desc: 'Monitors NASA WS2M wind speed and PRECTOTCORR rainfall intensity to prevent topsoil loss and storm runoff.',
+    nav_launch: 'Launch Engine',
+    hero_badge: 'NASA Space Apps Challenge 2026 · Global Contender',
+    hero_title: 'Scientific 3-Year Crop Rotation Powered by NASA & Copernicus',
+    hero_desc: 'Halt monoculture soil depletion. SAGE synthesizes NASA POWER agroclimatology, ESA Sentinel-2 multispectral phenology, and OLS Statistical Inference (SI) to compute drought-resilient, nitrogen-fixing, and profitable 3-year crop roadmaps.',
+    hero_btn_launch: 'Launch Map & Decision Engine',
+    hero_btn_explore: 'How It Works?',
+    h_stat_1: 'Natural N-Fix & Fertilizer Saved',
+    h_stat_2: 'Water & Pump Fuel Saved',
+    h_stat_3: 'Statistical Trend & Z-Score Anomaly',
+    h_stat_4: 'Regional Crops & Market Pricing',
+    flow_kicker: 'NASA & ESA DATA CYCLE',
+    flow_heading: 'How Field Climate History Converts Into Tomorrow’s Planting Roadmap',
+    flow_1_title: 'True Point Climate Telemetry',
+    flow_1_desc: 'Point queries pull 2m temperature, rainfall, solar energy, and wind speed directly from NASA POWER observations instead of synthetic forecasts.',
+    flow_2_title: '5-Year Regression & Z-Score Anomaly',
+    flow_2_desc: 'OLS linear regression calculates temperature/precipitation slope and fit (R²), while latest-year Z-score flags structural climate shifts.',
+    flow_3_title: '3-Year Succession Engine',
+    flow_3_desc: 'Following soil-depleting crops, restorative legumes are prioritized in Year 1, balancing yield and water savings across Years 2 and 3.',
+    flow_4_title: 'Phenology & Erosion Shield',
+    flow_4_desc: 'Sentinel-2 vegetative curve (NDVI proxy) charts 12-month thermal/water stress; NASA wind speed warns of topsoil erosion risk.',
+    banner_action_title: 'Try an instant field demo',
+    banner_action_desc: 'Trigger live NASA climate processing with sample coordinates in Konya, Harran, or Thrace.',
     advisory_note: 'Decision-support tool based on NASA POWER agroclimatology. Field-specific soil test validation is advised.',
   },
   tr: {
@@ -255,6 +277,28 @@ const I18N = {
     feat_3_desc: '16 Türkiye mahsulünün piyasa fiyatı ve verim katsayılarıyla çiftçiye gerçekçi hasat simülasyonu sunar.',
     feat_4_title: 'Toprak Erozyonu Kalkanı (RUSLE)',
     feat_4_desc: 'NASA WS2M rüzgar hızı ve PRECTOTCORR yağış şiddetiyle tarla erozyonunu önceden modeller.',
+    nav_launch: 'Platformu Aç',
+    hero_badge: 'NASA Space Apps Challenge 2026 · Global Aday',
+    hero_title: 'NASA POWER ve Copernicus Verileriyle Bilimsel 3 Yıllık Ekim Nöbeti',
+    hero_desc: 'Monokültür tarımın toprağı tüketmesini durdurun. SAGE, NASA POWER uydu telemetrisi, ESA Sentinel-2 multispektral fenolojisi ve OLS istatistiksel çıkarım (SI) modelini birleştirerek çiftçilere kuraklığa dayanıklı, azot bağlayıcı ve karlı 3 yıllık rotasyon haritaları üretir.',
+    hero_btn_launch: 'Haritayı ve Karar Motorunu Başlat',
+    hero_btn_explore: 'Nasıl Çalışır?',
+    h_stat_1: 'Doğal Azot & Gübre Tasarrufu',
+    h_stat_2: 'Su & Pompa Yakıtı Koruması',
+    h_stat_3: 'İstatistiksel Trend & Z-Skor Anomali',
+    h_stat_4: 'Bölgesel Mahsul & Piyasa Fiyatı',
+    flow_kicker: 'NASA & ESA VERİ DÖNGÜSÜ',
+    flow_heading: 'Tarlanın İklim Hafızası, Geleceğin Ekim Planına Nasıl Dönüşüyor?',
+    flow_1_title: 'Gerçek Noktasal İklim Telemetrisi',
+    flow_1_desc: 'Tarlanızın koordinatından 2m sıcaklık, düzeltilmiş yağış, güneş radyasyonu ve rüzgar hızı çekilerek yapay tahminler yerine NASA\'nın gerçek gözlemleri işlenir.',
+    flow_2_title: '5 Yıllık Regresyon & Z-Skor Anomalisi',
+    flow_2_desc: 'En Küçük Kareler (OLS) yöntemiyle sıcaklık ve yağış eğilimi, model güveni (R²) ve son yılın Z-skoru hesaplanarak yapısal kuraklaşma tespit edilir.',
+    flow_3_title: '3 Yıllık Azot & Toprak Dengesi',
+    flow_3_desc: 'Önceki yıllarda toprağı tüketen mahsuller ekilmişse sistem 1. yıla baklagilleri koyar; 2. ve 3. yıllarda verim ve su tasarrufunu dengeleyen ardışık yol çizer.',
+    flow_4_title: 'Fenoloji & Erozyon Kalkanı',
+    flow_4_desc: 'Sentinel-2 spektral fenoloji eğrisi (NDVI proxy) ile 12 aylık don/ısı stresi haritalanır; NASA rüzgar hızıyla yüzey erozyon riski önceden uyarılır.',
+    banner_action_title: 'Hemen bir örnek tarlayla deneyin',
+    banner_action_desc: 'Konya, Şanlıurfa veya Trakya koordinatlarıyla NASA analizini tek tıkla başlatın.',
     advisory_note: 'Bu sistem karar destek amaçlıdır. Nihai ekim öncesi yerel toprak kimyasal analizlerinin yapılması tavsiye edilir.',
   }
 };
@@ -1217,31 +1261,45 @@ function setupUIListeners() {
     }
   } catch (e) {}
 
-  // SAGE Introduction Modal Listeners
-  const sageModal = document.getElementById('sageModal');
-  const btnOverview = document.getElementById('btnOverviewModal');
-  const btnCloseSage = document.getElementById('btnCloseSageModal');
-  const btnStartSage = document.getElementById('btnStartSage');
-
-  function openSageModal() { if (sageModal) sageModal.style.display = 'flex'; }
-  function closeSageModal() { if (sageModal) sageModal.style.display = 'none'; }
-
-  btnOverview?.addEventListener('click', openSageModal);
-  btnCloseSage?.addEventListener('click', closeSageModal);
-  btnStartSage?.addEventListener('click', closeSageModal);
-  sageModal?.addEventListener('click', (e) => {
-    if (e.target === sageModal) closeSageModal();
+  // Smooth scroll for nav anchor buttons
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+      const targetId = this.getAttribute('href').slice(1);
+      const targetEl = document.getElementById(targetId);
+      if (targetEl) {
+        e.preventDefault();
+        targetEl.scrollIntoView({ behavior: 'smooth' });
+      }
+    });
   });
 
-  // Open modal automatically on very first visit if not dismissed
-  try {
-    if (!sessionStorage.getItem('sage_onboarded')) {
-      openSageModal();
-      sessionStorage.setItem('sage_onboarded', 'true');
-    }
-  } catch (e) {
-    // SessionStorage restricted fallback
-  }
+  // Action sample buttons inside story flow
+  const sampleMap = {
+    konya: { lat: 37.8746, lon: 32.4932, crop: 'misir', prev: 'bugday', name: 'Konya Ovası' },
+    urfa: { lat: 37.1674, lon: 38.7955, crop: 'pamuk', prev: 'pamuk', name: 'Şanlıurfa Harran' },
+    trakya: { lat: 41.4033, lon: 27.3578, crop: 'aycicegi', prev: 'bugday', name: 'Trakya' }
+  };
+
+  document.querySelectorAll('.action-sample-btn').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const key = btn.dataset.demo;
+      const data = sampleMap[key];
+      if (!data) return;
+
+      const appEl = document.getElementById('appWorkspace');
+      if (appEl) appEl.scrollIntoView({ behavior: 'smooth' });
+
+      updateCoords(data.lat, data.lon);
+      if (leafletMap) leafletMap.setView([data.lat, data.lon], 10);
+      if (mevcutCropSelect) mevcutCropSelect.value = data.crop || '';
+
+      const firstPrevSelect = document.querySelector('.previous-crop-select');
+      if (firstPrevSelect && data.prev) firstPrevSelect.value = data.prev;
+
+      showBanner(currentLang === 'tr' ? `${data.name} tarlası yüklendi, NASA analizi başlatılıyor…` : `${data.name} field loaded, starting NASA analysis…`, true);
+      await runFullAnalysis();
+    });
+  });
 
   // Quick demo buttons for Jury
   document.querySelectorAll('.quick-demo-btn').forEach(btn => {

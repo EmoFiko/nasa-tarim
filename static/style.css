@@ -1852,6 +1852,337 @@ body {
   }
 }
 
+.nav-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--c-crop-green);
+  color: #ffffff !important;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: var(--radius-sharp);
+  text-decoration: none;
+  transition: all 0.15s ease;
+  box-shadow: 0 1px 4px rgba(37, 93, 54, 0.2);
+}
+
+.nav-cta-btn:hover {
+  background: #1b4d2b;
+  transform: translateY(-1px);
+}
+
+/* SAGE Landing Hero (Queñaris-style downward storytelling) */
+.sage-landing-hero {
+  background: var(--c-surface);
+  border-bottom: 1px solid var(--c-border);
+  padding: 64px 32px 56px;
+  text-align: center;
+}
+
+.hero-container {
+  max-width: 920px;
+  margin: 0 auto;
+}
+
+.hero-header-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--c-crop-green);
+  background: var(--c-crop-green-tint);
+  border: 1px solid #c2e0c8;
+  padding: 5px 14px;
+  border-radius: 999px;
+  margin-bottom: 20px;
+  letter-spacing: 0.03em;
+}
+
+.badge-dot {
+  width: 7px;
+  height: 7px;
+  background-color: var(--c-crop-green);
+  border-radius: 50%;
+  display: inline-block;
+  box-shadow: 0 0 0 2px rgba(37, 93, 54, 0.2);
+}
+
+.hero-main-title {
+  font-family: var(--font-serif);
+  font-size: 56px;
+  font-weight: 700;
+  color: var(--c-earth-deep);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  margin-bottom: 12px;
+}
+
+.hero-sub-title {
+  font-family: var(--font-serif);
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--c-earth-deep);
+  line-height: 1.3;
+  margin-bottom: 18px;
+}
+
+.hero-desc {
+  font-size: 16px;
+  color: var(--c-earth-body);
+  line-height: 1.65;
+  max-width: 780px;
+  margin: 0 auto 32px;
+}
+
+.hero-cta-group {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  margin-bottom: 48px;
+  flex-wrap: wrap;
+}
+
+.hero-btn-primary {
+  background: var(--c-crop-green);
+  color: #ffffff !important;
+  text-decoration: none;
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 600;
+  padding: 13px 26px;
+  border-radius: var(--radius-sharp);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 4px 12px rgba(37, 93, 54, 0.25);
+  transition: all 0.15s ease;
+}
+
+.hero-btn-primary:hover {
+  background: #1b4d2b;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(37, 93, 54, 0.3);
+}
+
+.hero-btn-secondary {
+  background: var(--c-surface);
+  color: var(--c-earth-deep) !important;
+  border: 1px solid var(--c-border-strong);
+  text-decoration: none;
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 600;
+  padding: 13px 24px;
+  border-radius: var(--radius-sharp);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.15s ease;
+}
+
+.hero-btn-secondary:hover {
+  border-color: var(--c-crop-green);
+  color: var(--c-crop-green) !important;
+}
+
+.hero-stats-strip {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  border-top: 1px solid var(--c-border);
+  padding-top: 36px;
+}
+
+.h-stat-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.h-stat-num {
+  font-family: var(--font-mono);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--c-crop-green);
+}
+
+.h-stat-label {
+  font-size: 12px;
+  color: var(--c-earth-muted);
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+/* Story Features Flow Section */
+.sage-features-flow {
+  background: var(--c-field-canvas);
+  border-bottom: 1px solid var(--c-border);
+  padding: 64px 32px;
+}
+
+.flow-container {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.flow-section-header {
+  text-align: center;
+  max-width: 760px;
+  margin: 0 auto 48px;
+}
+
+.flow-kicker {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--c-earth-muted);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.flow-heading {
+  font-family: var(--font-serif);
+  font-size: 30px;
+  font-weight: 600;
+  color: var(--c-earth-deep);
+  line-height: 1.25;
+}
+
+.flow-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  margin-bottom: 40px;
+}
+
+.flow-card {
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-card);
+  padding: 24px 22px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.flow-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--c-border-strong);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
+}
+
+.flow-step-num {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--c-earth-muted);
+  margin-bottom: 12px;
+}
+
+.flow-tag {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: var(--radius-sharp);
+  margin-bottom: 12px;
+  width: fit-content;
+}
+
+.flow-tag-nasa { color: #1b4d3e; background: #e6f4ea; border: 1px solid #b7e1cd; }
+.flow-tag-si { color: #8a5716; background: #fdf5ea; border: 1px solid #fae1c3; }
+.flow-tag-agro { color: #1e4a68; background: #e9f2f8; border: 1px solid #c9dfed; }
+.flow-tag-esa { color: #1a5276; background: #e8f0fe; border: 1px solid #c2d7f2; }
+
+.flow-card h4 {
+  font-family: var(--font-serif);
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--c-earth-deep);
+  margin-bottom: 8px;
+  line-height: 1.3;
+}
+
+.flow-card p {
+  font-size: 13px;
+  color: var(--c-earth-body);
+  line-height: 1.5;
+}
+
+/* Flow Action Banner */
+.flow-action-banner {
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-card);
+  padding: 24px 28px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.action-banner-text h4 {
+  font-family: var(--font-serif);
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--c-earth-deep);
+  margin-bottom: 4px;
+}
+
+.action-banner-text p {
+  font-size: 13.5px;
+  color: var(--c-earth-muted);
+}
+
+.action-banner-btns {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.action-sample-btn {
+  background: var(--c-field-canvas);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-sharp);
+  padding: 9px 16px;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--c-earth-deep);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.action-sample-btn:hover {
+  background: var(--c-crop-green);
+  color: #ffffff;
+  border-color: var(--c-crop-green);
+}
+
+@media (max-width: 900px) {
+  .hero-main-title { font-size: 42px; }
+  .hero-stats-strip { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+  .flow-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 600px) {
+  .hero-main-title { font-size: 34px; }
+  .hero-sub-title { font-size: 20px; }
+  .hero-stats-strip { grid-template-columns: 1fr; }
+  .flow-grid { grid-template-columns: 1fr; }
+  .flow-action-banner { flex-direction: column; align-items: stretch; text-align: center; }
+  .action-banner-btns { justify-content: center; }
+}
+
 /* SAGE Mission Overview Modal (Queñaris-style Introduction) */
 .sage-modal-backdrop {
   position: fixed;
