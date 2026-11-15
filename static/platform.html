@@ -53,7 +53,7 @@
       <!-- Field Location Section -->
       <section class="section-block">
         <div class="section-title-row">
-          <h2 data-i18n="loc_title">Field Location</h2>
+          <h2 data-i18n="loc_title">Tarla Konumu</h2>
           <button type="button" class="subtle-link" id="btnGeolocate" data-i18n="btn_locate">Use Device Location</button>
         </div>
 
@@ -98,7 +98,7 @@
       <!-- Planting Window Section -->
       <section class="section-block">
         <div class="section-title-row">
-          <h2 data-i18n="date_title">Planting &amp; Observation Period</h2>
+          <h2 data-i18n="date_title">Ekim ve Gözlem Dönemi</h2>
         </div>
         <div class="date-pair">
           <div class="input-cell">
@@ -114,7 +114,7 @@
 
       <!-- Agronomic Preferences Section -->
       <section class="section-block">
-        <h2 class="mb-sm" data-i18n="pref_title">What Do You Want for Your Field?</h2>
+        <h2 class="mb-sm" data-i18n="pref_title">Tarla Öncelikleri</h2>
 
         <!-- Current crop on field -->
         <div class="field-select-row">
@@ -244,7 +244,7 @@
       <div id="welcomePlaceholder" class="initial-brief">
         <span class="brief-tag" data-i18n="welcome_badge">NASA Space Apps Challenge · Karar Destek Sistemi</span>
         <h2 class="brief-headline" data-i18n="welcome_title">NASA POWER Uydu Verileriyle Ekim Nöbeti Planlayıcı</h2>
-        <p class="brief-body" data-i18n="welcome_desc">Haritadan tarlanızı seçin veya aşağıdaki tek tıkla hazır örnek tarlalardan birini deneyin. NASA POWER agro-iklim verileri ve ESA Sentinel-2 fenolojisi taranarak toprağı onaran 3 yıllık ekim rotasyonu anında hesaplanır.</p>
+        <p class="brief-body" data-i18n="welcome_desc">Haritadan tarlanızı seçin veya örnek tarlalardan birini deneyin. NASA POWER iklim verileri, ürün kataloğu ve girdiğiniz ekim geçmişiyle üç yıllık rotasyon önerisi hesaplanır.</p>
 
         <div class="quick-start-bar">
           <span class="quick-start-label" data-i18n="quick_start_lbl">Hemen Dene (Örnek Tarlalar):</span>
@@ -423,11 +423,13 @@
           </div>
         </section>
 
+<section class="decision-explainer section-block" id="decisionExplainer" aria-labelledby="whyPlanTitle"><span class="flow-kicker">SAGE / DECISION SUPPORT</span><h3 id="whyPlanTitle" data-i18n="why_title">Neden bu plan?</h3><p data-i18n="why_intro">İklim uyumu, ürün geçmişi ve seçtiğiniz öncelikler birlikte değerlendirilir. Bu skorlar karar desteğidir; başarı olasılığı değildir.</p><div class="explanation-grid"><article><h4 data-i18n="why_basis">Planın dayanağı</h4><ul id="whyBasis"></ul></article><article><h4 data-i18n="why_sources">Hangi verileri kullanıyoruz?</h4><ul id="whySources"></ul></article><article><h4 data-i18n="why_limits">Neyi bilmiyoruz?</h4><p data-i18n="why_limits_desc">Tarla ölçeğinde toprak analizi, gerçek sulama kapasitesi ve güncel piyasa fiyatları doğrulanmış değildir. Verim, brüt gelir ve ekolojik kazanım değerleri model/katalog varsayımlarıdır; garanti değildir. R² model uyumudur, önerinin başarı olasılığı değildir.</p></article><article><h4 data-i18n="why_expert">Yerel uzmanla doğrulayın</h4><p data-i18n="why_expert_desc">Tohum çeşidi, ekim tarihi, toprak analizi, sulama ve yerel hastalık riskini bir ziraat mühendisiyle değerlendirin. Son karar çiftçinindir.</p></article></div></section>
         <!-- 3 Agronomic Strategies Matrix -->
         <div class="strategy-matrix-head">
-          <h3 data-i18n="strategies_heading">Ekim Nöbeti Stratejileri</h3>
+          <h3 data-i18n="strategies_heading">Alternatif Yaklaşımları Karşılaştırın</h3>
         </div>
 
+        <p class="strategy-context" data-i18n="strategies_note">Toprak sağlığı, su tasarrufu ve mevcut koşullara uyum için üç yaklaşım. Bunlar yukarıdaki üç yıllık takvimin yılları değildir.</p>
         <div class="strategy-columns" id="strategiesContainer">
           <!-- Dynamically populated -->
         </div>
@@ -491,23 +493,23 @@
             </div>
             <div class="provenance-item">
               <span class="prov-tag">NASA POWER Monthly Point</span>
-              <p data-i18n="prov_monthly">Sentetik tahminler yerine NASA'nın 12 aylık gerçek iklim serisiyle gerçeğe tam uygun stres takvimi üretir.</p>
+              <p data-i18n="prov_monthly">Canlı veri kaynağı: NASA POWER aylık sıcaklık ve yağış. Veri alınamadığında veya aylar eksik olduğunda mevsimsel model kullanılır.</p>
             </div>
             <div class="provenance-item">
               <span class="prov-tag prov-tag-esa">ESA Copernicus Sentinel-2</span>
-              <p data-i18n="prov_sentinel">10–20m çözünürlüklü multispektral görüntü. Red-edge, NIR ve SWIR bantlarıyla NDVI/EVI hesabı ve tarla ölçeğinde bitki stresi haritalaması.</p>
+              <p data-i18n="prov_sentinel">Metodoloji referansı; canlı bağlantı yok. Sentinel-2 görüntüsü veya bantları çekilmez. Grafikteki NDVI proxy uydu ölçümü değil, iklim temelli bir model göstergesidir.</p>
             </div>
             <div class="provenance-item">
               <span class="prov-tag prov-tag-esa">ERA5 (ECMWF Reanalysis)</span>
-              <p data-i18n="prov_era5">Saatlik küresel reanaliz: sıcaklık, nem, rüzgar, toprak sıcaklığı/nemi. NASA gözlemlerinin kapsamadığı dönemler ve seyrek istasyon bölgelerinde tamamlayıcı zaman serisi kaynağı.</p>
+              <p data-i18n="prov_era5">Metodoloji referansı; canlı bağlantı yok. Bu sürümde ERA5 ile veri boşluğu doldurulmaz.</p>
             </div>
             <div class="provenance-item">
               <span class="prov-tag prov-tag-nasa">NASA SMAP</span>
-              <p data-i18n="prov_smap">2–3 günde bir küresel yüzey toprak nemi ve don/çözülme ölçümü. Kuraklık erken uyarısı ve sulama zamanlaması için tamamlayıcı katman.</p>
+              <p data-i18n="prov_smap">Metodoloji referansı; canlı bağlantı yok. Gerçek toprak nemi ve don/çözülme ölçümleri bu sürümde alınmaz.</p>
             </div>
             <div class="provenance-item">
               <span class="prov-tag prov-tag-nasa">NASA SRTM &amp; GPM/IMERG</span>
-              <p data-i18n="prov_srtm_gpm">SRTM: Küresel eğim/topoğrafya — erozyon riski ve yüzey akışı modellemesi. GPM/IMERG: Küresel yağış birikimi — ekstrem yağış frekansı ve toprak erozyonu değerlendirmesi.</p>
+              <p data-i18n="prov_srtm_gpm">Metodoloji referansı; canlı bağlantı yok. SRTM eğimi veya GPM yağışı çekilmez. Risk göstergeleri NASA POWER yağış ve rüzgar eşiklerinden hesaplanır.</p>
             </div>
           </div>
 
@@ -521,19 +523,19 @@
               </div>
               <div class="glossary-item">
                 <span class="glossary-term">Evapotranspiration (ET)</span>
-                <p class="glossary-def" data-i18n="gls_et">Topraktan buharlaşma + bitkiden terlemenin toplamı. Bitki su gereksiniminin doğrudan ölçüsüdür. ECOSTRESS ve NASA POWER'ın birleşimi ET'yi tarla ölçeğinde tahmin eder.</p>
+                <p class="glossary-def" data-i18n="gls_et">Evapotranspirasyon: toprak buharlaşması + bitki terlemesinin toplamı. Bitki su gereksiniminin doğrudan ölçüsü. ECOSTRESS ve NASA POWER ET'yi tarla ölçeğinde tahmin eder.</p>
               </div>
               <div class="glossary-item">
                 <span class="glossary-term">Toprak Nemi Anomalisi</span>
-                <p class="glossary-def" data-i18n="gls_sma">Mevcut toprak neminin uzun dönem ortalamasından sapma miktarı (Z-skoru). Pozitif anomali aşırı ıslaklık, negatif anomali kuraklık stresini işaret eder.</p>
+                <p class="glossary-def" data-i18n="gls_sma">Toprak Nemi Anomalisi: mevcut toprak neminin uzun dönem ortalamasından sapma (Z-skoru). Pozitif = aşırı ıslaklık; negatif = kuraklık stresi.</p>
               </div>
               <div class="glossary-item">
                 <span class="glossary-term">Don Riski (Frost Risk)</span>
-                <p class="glossary-def" data-i18n="gls_frost">Minimum sıcaklığın 0°C altına düştüğü dönem. Çimlendikten sonraki ilk 2 haftada don, bitkiyi tamamen yok edebilir. Bu araç NASA POWER T2M eşiğini 5°C altı olarak işaretler.</p>
+                <p class="glossary-def" data-i18n="gls_frost">Minimum sıcaklığın 0°C altına düştüğü dönem. Çimlenmeden sonraki ilk 2 haftada don bitkiyi tamamen yok edebilir. Bu araç NASA POWER T2M 5°C altını işaretler.</p>
               </div>
               <div class="glossary-item">
                 <span class="glossary-term">Su Dengesi (Water Balance)</span>
-                <p class="glossary-def" data-i18n="gls_wb">Yağış eksi evapotranspirasyon. Pozitif denge fazla su / taşma; negatif denge sulama ihtiyacını gösterir.</p>
+                <p class="glossary-def" data-i18n="gls_wb">Su Dengesi: Yağış eksi evapotranspirasyon. Pozitif = fazla su/taşma; negatif = sulama ihtiyacı.</p>
               </div>
               <div class="glossary-item">
                 <span class="glossary-term">Uydu vs Yerüstü Ölçüm</span>
@@ -545,7 +547,7 @@
               </div>
               <div class="glossary-item">
                 <span class="glossary-term">Toprak Erozyonu Riski (RUSLE)</span>
-                <p class="glossary-def" data-i18n="gls_erosion">NASA WS2M (rüzgar hızı) ve PRECTOTCORR (yağış şiddeti) ile modellenir. Kuru topraklarda rüzgar aşındırmasını ve sağanaklarda yüzey akışını engellemek için nadas yerine baklagil örtücü bitkiler önerilir.</p>
+                <p class="glossary-def" data-i18n="gls_erosion">Toprak Erozyonu Riski (RUSLE): NASA WS2M (rüzgar hızı) ve PRECTOTCORR (yağış şiddeti) ile modellenir. Kuru topraklarda rüzgar aşındırmasını ve sağanaklarda yüzey akışını engellemek için nadas yerine baklagil örtücü bitkiler önerilir.</p>
               </div>
             </div>
           </details>

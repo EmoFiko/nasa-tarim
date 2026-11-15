@@ -20,3 +20,20 @@ setLandingLanguage(language);
 applyLandingTheme(theme);
 document.getElementById('btnLang').addEventListener('click', () => setLandingLanguage(document.documentElement.lang === 'tr' ? 'en' : 'tr'));
 document.getElementById('btnThemeToggle').addEventListener('click', () => applyLandingTheme(document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'));
+
+// Manual slides keep the presentation under the reader's control.
+const problemSlides = [...document.querySelectorAll('.problem-slide')];
+let problemIndex = 0;
+function showProblemSlide(index) {
+  problemIndex = (index + problemSlides.length) % problemSlides.length;
+  problemSlides.forEach((slide, i) => { slide.hidden = i !== problemIndex; });
+  document.getElementById('problemCount').textContent = `0${problemIndex + 1} / 03`;
+}
+document.getElementById('problemPrev').addEventListener('click', () => showProblemSlide(problemIndex - 1));
+document.getElementById('problemNext').addEventListener('click', () => showProblemSlide(problemIndex + 1));
+document.getElementById('problem').addEventListener('keydown', event => {
+  if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') {
+    event.preventDefault();
+    showProblemSlide(problemIndex + (event.key === 'ArrowRight' ? 1 : -1));
+  }
+});

@@ -548,7 +548,38 @@ async function runRotationCalculation() {
   }
 }
 
+function renderPlanExplanation(data) {
+  const text = I18N[currentLang];
+  const basis = document.getElementById('whyBasis');
+  const sources = document.getElementById('whySources');
+  if (!basis || !sources) return;
+  const fill = (el, lines) => {
+    el.replaceChildren(...lines.map(line => {
+      const item = document.createElement('li');
+      item.textContent = line;
+      return item;
+    }));
+  };
+  const first = data.rotasyon_plani?.[0];
+  const crop = loadedCropsData[first?.anahtar];
+  const name = currentLang === 'en' ? (crop?.ad_en || first?.bitki) : first?.bitki;
+  const ort = appState.ort;
+  const lines = [];
+  if (ort) lines.push(`${text.why_climate}: ${ort.sıcaklık_C} °C · ${ort.yağış_mm_gun} mm/day`);
+  if (first) lines.push(`${text.why_crop}: ${name}. ${currentLang === 'en' ? first.aciklama_en || first.aciklama : first.aciklama}`);
+  if (data.en_iyi_bitki) lines.push(`${text.why_score}: ${data.en_iyi_bitki.skor}/100`);
+  lines.push(getSelectedCropHistory().length ? text.why_history_given : text.why_history_none);
+  fill(basis, lines);
+  const monthly = appState.aylik?.properties?.parameter;
+  const hasMonthly = Object.entries(monthly?.T2M || {}).some(([key, value]) =>
+    /^(0[1-9]|1[0-2])$/.test(key.slice(-2)) && typeof value === 'number' && value > -99);
+  const hasTrend = Boolean(data.si_analiz?.sicaklik_trend && data.si_analiz?.yagis_trend);
+  fill(sources, [text.why_source_daily, hasMonthly ? text.why_monthly_real : text.why_monthly_fallback,
+    hasTrend ? text.why_trend_real : text.why_trend_missing, text.why_proxy]);
+}
+
 function renderResultsUI(data) {
+  renderPlanExplanation(data);
   // Risk notices
   riskWarningsRow.innerHTML = '';
   if (data.risk_uyarilari && data.risk_uyarilari.length > 0) {
