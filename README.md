@@ -1,6 +1,6 @@
-# Field Shift — NASA POWER & Copernicus Guided Crop Rotation System
+# SAGE — Satellite Agro-climatology & Growth Engine
 
-A decision-support platform designed for the **NASA International Space Apps Challenge**. Field Shift integrates NASA Earth Observation data (NASA POWER, SMAP, GPM, SRTM) and ESA Copernicus assets (Sentinel-2, ERA5) to compute sustainable, drought-resilient **3-Year Crop Rotation Roadmaps**, statistical inference climate trends, and farm-level economic forecasts.
+A decision-support platform designed for the **NASA International Space Apps Challenge**. **SAGE** integrates NASA Earth Observation data (NASA POWER, SMAP, GPM, SRTM) and ESA Copernicus assets (Sentinel-2, ERA5) to compute sustainable, drought-resilient **3-Year Crop Rotation Roadmaps**, statistical inference climate trends, and farm-level economic forecasts.
 
 ---
 

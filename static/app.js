@@ -1,5 +1,5 @@
 // ============================================================================
-// Field Shift — NASA POWER Agroclimatology Interface Logic
+// SAGE (Satellite Agro-climatology & Growth Engine) — NASA POWER & Copernicus Logic
 // ============================================================================
 
 const I18N = {
@@ -117,6 +117,17 @@ const I18N = {
     gls_sat_vs_ground: 'Satellite data covers large areas but averages pixels (250m–10km). Ground sensors measure at a point but offer less coverage. Best results come from combining both.',
     gls_uncertainty: "This tool's recommendations are probabilistic estimates based on NASA climate statistics. Local soil chemistry, seed quality, and micro-climate variation can affect outcomes; expert consultation advised.",
     gls_erosion: 'Soil Erosion Risk (RUSLE model proxy): Formulated from NASA WS2M (wind speed) and PRECTOTCORR (rainfall intensity). Cover legumes are prioritized over bare fallow to shield topsoil from wind scouring and storm runoff.',
+    btn_about_sage: 'About SAGE',
+    btn_start_sage: 'Launch Platform →',
+    sage_lead: 'A satellite-driven agricultural decision-support platform leveraging NASA POWER telemetry and ESA Copernicus Earth Observation to reverse soil degradation, mitigate climate risk, and orchestrate sustainable 3-Year Crop Rotations.',
+    feat_1_title: 'Biological N-Fixation',
+    feat_1_desc: 'Rotates restorative legumes after depleting cash crops, reducing chemical nitrogen fertilizer reliance by 28–32%.',
+    feat_2_title: '5-Year OLS & Anomaly',
+    feat_2_desc: 'Applies Ordinary Least Squares regression (R²) and Z-score anomaly scoring to identify structural heat and drought shifts.',
+    feat_3_title: 'Farm-Level Economics',
+    feat_3_desc: 'Calculates decare-level harvest volume and gross farm revenue based on regional crop market pricing.',
+    feat_4_title: 'Soil Erosion Shield (RUSLE)',
+    feat_4_desc: 'Monitors NASA WS2M wind speed and PRECTOTCORR rainfall intensity to prevent topsoil loss and storm runoff.',
     advisory_note: 'Decision-support tool based on NASA POWER agroclimatology. Field-specific soil test validation is advised.',
   },
   tr: {
@@ -233,6 +244,17 @@ const I18N = {
     gls_sat_vs_ground: 'Uydu verileri geniş alanı kapsar ancak piksel ortalaması alır (250m–10km). Yerüstü sensörler nokta-ölçüm yapar ama daha az kapsam sunar. En doğru sonuç ikisinin birlikte kullanılmasıyla elde edilir.',
     gls_uncertainty: 'Bu aracın önerileri NASA iklim istatistiklerine dayalı ihtimaliyet tahminleridir. Yerel toprak kimyası, tohum kalitesi ve mikro-iklim farklılıkları sonucu değiştirebilir; uzman danışmanlığı tavsiye edilir.',
     gls_erosion: 'Toprak Erozyonu Riski (RUSLE): NASA WS2M (rüzgar hızı) ve PRECTOTCORR (yağış şiddeti) ile modellenir. Kuru topraklarda rüzgar aşındırmasını ve sağanaklarda yüzey akışını engellemek için nadas yerine baklagil örtücü bitkiler önerilir.',
+    btn_about_sage: 'SAGE Nedir?',
+    btn_start_sage: 'Platformu Başlat →',
+    sage_lead: 'NASA POWER iklim telemetrisi ve ESA Copernicus Yer Gözlem verilerini kullanarak monokültür tükenişini durduran, kuraklığa dirençli ve bilimsel 3 Yıllık Ekim Nöbeti (Crop Rotation) karar destek platformu.',
+    feat_1_title: 'Doğal Azot Bağlama',
+    feat_1_desc: 'Tüketici ürünlerden sonra baklagilleri devreye sokarak kimyasal gübre ihtiyacını %28–32 azaltır.',
+    feat_2_title: '5 Yıllık OLS & Anomali',
+    feat_2_desc: 'En küçük kareler regresyonu (R²) ve Z-skoru ile ekstrem kuraklık/ısı sapmalarını tespit eder.',
+    feat_3_title: 'Dönüm Bazlı Rekolte & Gelir',
+    feat_3_desc: '16 Türkiye mahsulünün piyasa fiyatı ve verim katsayılarıyla çiftçiye gerçekçi hasat simülasyonu sunar.',
+    feat_4_title: 'Toprak Erozyonu Kalkanı (RUSLE)',
+    feat_4_desc: 'NASA WS2M rüzgar hızı ve PRECTOTCORR yağış şiddetiyle tarla erozyonunu önceden modeller.',
     advisory_note: 'Bu sistem karar destek amaçlıdır. Nihai ekim öncesi yerel toprak kimyasal analizlerinin yapılması tavsiye edilir.',
   }
 };
@@ -1060,7 +1082,7 @@ function downloadReport() {
   const fieldSize = parseFloat(fieldSizeInput.value) || 50;
   const lines = [
     '=====================================================',
-    '  FIELD SHIFT — NASA SPACE APPS DECISION REPORT    ',
+    '  SAGE — NASA POWER & COPERNICUS DECISION REPORT    ',
     '=====================================================',
     `Date: ${new Date().toLocaleString()}`,
     `Location: Lat ${latInput.value}°N, Lon ${lonInput.value}°E`,
@@ -1119,7 +1141,7 @@ function downloadReport() {
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = `field_shift_report_${formatDateForAPI(startDateInput.value)}.txt`;
+  a.download = `sage_decision_report_${formatDateForAPI(startDateInput.value)}.txt`;
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
@@ -1160,6 +1182,32 @@ function setupUIListeners() {
   btnAnalyze.addEventListener('click', runFullAnalysis);
   btnLang.addEventListener('click', () => { setLanguage(currentLang === 'en' ? 'tr' : 'en'); });
   document.getElementById('btnAddHistoryCrop')?.addEventListener('click', addHistoryCropRow);
+
+  // SAGE Introduction Modal Listeners
+  const sageModal = document.getElementById('sageModal');
+  const btnOverview = document.getElementById('btnOverviewModal');
+  const btnCloseSage = document.getElementById('btnCloseSageModal');
+  const btnStartSage = document.getElementById('btnStartSage');
+
+  function openSageModal() { if (sageModal) sageModal.style.display = 'flex'; }
+  function closeSageModal() { if (sageModal) sageModal.style.display = 'none'; }
+
+  btnOverview?.addEventListener('click', openSageModal);
+  btnCloseSage?.addEventListener('click', closeSageModal);
+  btnStartSage?.addEventListener('click', closeSageModal);
+  sageModal?.addEventListener('click', (e) => {
+    if (e.target === sageModal) closeSageModal();
+  });
+
+  // Open modal automatically on very first visit if not dismissed
+  try {
+    if (!sessionStorage.getItem('sage_onboarded')) {
+      openSageModal();
+      sessionStorage.setItem('sage_onboarded', 'true');
+    }
+  } catch (e) {
+    // SessionStorage restricted fallback
+  }
 
   // Quick demo buttons for Jury
   document.querySelectorAll('.quick-demo-btn').forEach(btn => {

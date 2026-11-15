@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Field Shift — NASA POWER Uydu Destekli Ekim Nöbeti ve Tarla Planlama</title>
+  <title>SAGE — NASA POWER &amp; Copernicus Guided Crop Rotation Engine</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -17,10 +17,17 @@
   <header class="masthead">
     <div class="masthead-inner">
       <div class="brand">
-        <h1 class="brand-title">Field Shift</h1>
-        <p class="brand-tagline">NASA POWER Agroiklim &bull; Uydu Destekli Ürün Rotasyonu</p>
+        <div class="brand-title-wrap">
+          <h1 class="brand-title">SAGE</h1>
+          <span class="brand-acronym-badge">Satellite Agro-climatology &amp; Growth Engine</span>
+        </div>
+        <p class="brand-tagline">NASA POWER &bull; ESA Copernicus &bull; 3 Yıllık Akıllı Ekim Nöbeti ve İklim Analizi</p>
       </div>
       <div class="masthead-controls">
+        <button id="btnOverviewModal" class="subtle-link nav-guide-btn" type="button" data-i18n="btn_about_sage">
+          <svg class="ui-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+          <span>SAGE Nedir?</span>
+        </button>
         <button id="btnLang" class="lang-toggle-btn" type="button">
           <span id="langText">English</span>
         </button>
@@ -547,6 +554,53 @@
     </section>
 
   </main>
+
+  <!-- SAGE Mission Overview Modal (Queñaris style concise introduction) -->
+  <div id="sageModal" class="sage-modal-backdrop" style="display: none;">
+    <div class="sage-modal-card">
+      <div class="sage-modal-header">
+        <div class="modal-badge-row">
+          <span class="brief-tag">NASA Space Apps Challenge 2026</span>
+          <button type="button" class="modal-close-btn" id="btnCloseSageModal">✕</button>
+        </div>
+        <h2 class="sage-modal-title">SAGE</h2>
+        <p class="sage-modal-subtitle">Satellite Agro-climatology &amp; Growth Engine</p>
+      </div>
+
+      <div class="sage-modal-body">
+        <p class="sage-lead-text" data-i18n="sage_lead">NASA POWER iklim telemetrisi ve ESA Copernicus Yer Gözlem verilerini kullanarak monokültür tükenişini durduran, kuraklığa dirençli ve bilimsel 3 Yıllık Ekim Nöbeti (Crop Rotation) karar destek platformu.</p>
+
+        <div class="sage-feature-grid">
+          <div class="sage-feat-item">
+            <span class="sage-feat-tag">01 · Ekoloji &amp; Azot</span>
+            <h4 data-i18n="feat_1_title">Doğal Azot Bağlama</h4>
+            <p data-i18n="feat_1_desc">Tüketici ürünlerden sonra baklagilleri devreye sokarak kimyasal gübre ihtiyacını %28–32 azaltır.</p>
+          </div>
+          <div class="sage-feat-item">
+            <span class="sage-feat-tag">02 · İstatistiksel Çıkarım (SI)</span>
+            <h4 data-i18n="feat_2_title">5 Yıllık OLS &amp; Anomali</h4>
+            <p data-i18n="feat_2_desc">En küçük kareler regresyonu (R²) ve Z-skoru ile ekstrem kuraklık/ısı sapmalarını tespit eder.</p>
+          </div>
+          <div class="sage-feat-item">
+            <span class="sage-feat-tag">03 · Çiftçi Ekonomisi</span>
+            <h4 data-i18n="feat_3_title">Dönüm Bazlı Rekolte &amp; Gelir</h4>
+            <p data-i18n="feat_3_desc">16 Türkiye mahsulünün piyasa fiyatı ve verim katsayılarıyla çiftçiye gerçekçi hasat simülasyonu sunar.</p>
+          </div>
+          <div class="sage-feat-item">
+            <span class="sage-feat-tag">04 · Erozyon Kalkanı</span>
+            <h4 data-i18n="feat_4_title">Rüzgar &amp; Yüzey Akışı (RUSLE)</h4>
+            <p data-i18n="feat_4_desc">NASA WS2M rüzgar hızı ve PRECTOTCORR yağış şiddetiyle tarla erozyonunu önceden modeller.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="sage-modal-footer">
+        <button type="button" class="sage-cta-btn" id="btnStartSage" data-i18n="btn_start_sage">
+          <span>Platformu Başlat &rarr;</span>
+        </button>
+      </div>
+    </div>
+  </div>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="/static/app.js"></script>

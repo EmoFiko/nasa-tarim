@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""NASA Space Apps 2026 - Field Shift proje sunucu.
+"""NASA Space Apps 2026 - SAGE (Satellite Agro-climatology & Growth Engine) sunucu.
 HTTP: GET /, GET /static/*, POST /api/analiz, POST /api/rotasyon"""
 import json
 import os
