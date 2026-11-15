@@ -42,9 +42,11 @@ LANG = {
         "temp_stress": "Sıcaklık stresi",
         "water_stress": "Su stresi",
         "ndvi_proxy": "Bitki gelişimi (NDVI proxy)",
-        "frost_warning": "⚠ Bu dönemde don riski yüksek — erken tohumlama/koruma önlemi alın.",
-        "heat_warning": "⚠ Bu dönemde ısı dalgası riski yüksek — sulama/ölçme planlayın.",
-        "drought_warning": "⚠ Bu dönemde kuraklık riski yüksek — su tasarruflu bitki tercih edin.",
+        "frost_warning": "Bu dönemde don riski yüksek — erken tohumlama/koruma önlemi alın.",
+        "heat_warning": "Bu dönemde ısı dalgası riski yüksek — sulama/ölçme planlayın.",
+        "drought_warning": "Bu dönemde kuraklık riski yüksek — su tasarruflu bitki tercih edin.",
+        "wind_erosion_warning": "Yüksek rüzgar hızı (>3.5 m/s) ve kurak rejim rüzgar erozyonu riski yaratıyor — çıplak nadas yerine örtücü baklagil tercih edin.",
+        "runoff_erosion_warning": "Aşırı yağış ve yüzey akışı riski (>5 mm/gün) — eğimli arazide kontur ekim ve erozyon önleyici derin köklü ürünler tavsiye edilir.",
         "lang_switch": "EN",
     },
     "en": {
@@ -84,9 +86,11 @@ LANG = {
         "temp_stress": "Temperature stress",
         "water_stress": "Water stress",
         "ndvi_proxy": "Crop growth (NDVI proxy)",
-        "frost_warning": "⚠ High frost risk this period — consider early planting/protection.",
-        "heat_warning": "⚠ High heat wave risk this period — plan irrigation/monitoring.",
-        "drought_warning": "⚠ High drought risk this period — prefer water-saving crops.",
+        "frost_warning": "High frost risk this period — consider early planting/protection.",
+        "heat_warning": "High heat wave risk this period — plan irrigation/monitoring.",
+        "drought_warning": "High drought risk this period — prefer water-saving crops.",
+        "wind_erosion_warning": "High wind speed (>3.5 m/s) with arid conditions poses wind erosion risk — avoid bare fallow, prioritize cover legumes.",
+        "runoff_erosion_warning": "High precipitation runoff risk (>5 mm/day) — contour planting and deep-rooted cover crops advised against water erosion.",
         "lang_switch": "TR",
     },
 }
@@ -371,13 +375,17 @@ def strategi_skoru(ort, oncelikler, crop, strateji_key, constraints=None):
 
 
 def risk_uyarilari(ort, lang="tr"):
-    """Don, ısı dalgası, kuraklık risk uyarıları."""
+    """
+    NASA POWER iklim göstergelerine dayalı agronomik riskler:
+    Don, ısı dalgası, kuraklık ve NASA WS2M / PRECTOTCORR temelli rüzgar ve su erozyonu riskleri.
+    """
     uyarilar = []
-    t = ort["sıcaklık_C"]
-    p = ort["yağış_mm_gun"]
+    t = ort.get("sıcaklık_C", 15.0)
+    p = ort.get("yağış_mm_gun", 1.5)
+    w = ort.get("rüzgar_m_s", 2.0)
     L = LANG[lang]
 
-    # Basit kural: ortalama sıcaklık < 5°C -> don riski
+    # Don riski (T2M < 5°C)
     if t < 5:
         uyarilar.append({"tip": "don", "mesaj": L["frost_warning"], "severity": "high"})
     # Sıcaklık > 30°C -> ısı dalgası
@@ -386,6 +394,14 @@ def risk_uyarilari(ort, lang="tr"):
     # Yağış < 1 mm/gün -> kuraklık
     if p < 1.0:
         uyarilar.append({"tip": "kuraklik", "mesaj": L["drought_warning"], "severity": "medium"})
+
+    # NASA WS2M Rüzgar Erozyonu Riski (Rüzgar > 3.5 m/s ve kurak ortam p < 1.4 mm/gün)
+    if w > 3.5 and p < 1.4:
+        uyarilar.append({"tip": "erozyon_ruzgar", "mesaj": L["wind_erosion_warning"], "severity": "medium"})
+    # NASA PRECTOTCORR Su Erozyonu & Yüzey Akışı Riski (Aşırı yağış > 5.0 mm/gün)
+    elif p > 5.0:
+        uyarilar.append({"tip": "erozyon_su", "mesaj": L["runoff_erosion_warning"], "severity": "medium"})
+
     return uyarilar
 
 

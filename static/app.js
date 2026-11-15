@@ -116,6 +116,7 @@ const I18N = {
     gls_wb: 'Water Balance: Precipitation minus evapotranspiration. Positive = excess water / runoff; negative = irrigation need.',
     gls_sat_vs_ground: 'Satellite data covers large areas but averages pixels (250m–10km). Ground sensors measure at a point but offer less coverage. Best results come from combining both.',
     gls_uncertainty: "This tool's recommendations are probabilistic estimates based on NASA climate statistics. Local soil chemistry, seed quality, and micro-climate variation can affect outcomes; expert consultation advised.",
+    gls_erosion: 'Soil Erosion Risk (RUSLE model proxy): Formulated from NASA WS2M (wind speed) and PRECTOTCORR (rainfall intensity). Cover legumes are prioritized over bare fallow to shield topsoil from wind scouring and storm runoff.',
     advisory_note: 'Decision-support tool based on NASA POWER agroclimatology. Field-specific soil test validation is advised.',
   },
   tr: {
@@ -231,6 +232,7 @@ const I18N = {
     gls_wb: 'Su Dengesi: Yağış eksi evapotranspirasyon. Pozitif = fazla su/taşma; negatif = sulama ihtiyacı.',
     gls_sat_vs_ground: 'Uydu verileri geniş alanı kapsar ancak piksel ortalaması alır (250m–10km). Yerüstü sensörler nokta-ölçüm yapar ama daha az kapsam sunar. En doğru sonuç ikisinin birlikte kullanılmasıyla elde edilir.',
     gls_uncertainty: 'Bu aracın önerileri NASA iklim istatistiklerine dayalı ihtimaliyet tahminleridir. Yerel toprak kimyası, tohum kalitesi ve mikro-iklim farklılıkları sonucu değiştirebilir; uzman danışmanlığı tavsiye edilir.',
+    gls_erosion: 'Toprak Erozyonu Riski (RUSLE): NASA WS2M (rüzgar hızı) ve PRECTOTCORR (yağış şiddeti) ile modellenir. Kuru topraklarda rüzgar aşındırmasını ve sağanaklarda yüzey akışını engellemek için nadas yerine baklagil örtücü bitkiler önerilir.',
     advisory_note: 'Bu sistem karar destek amaçlıdır. Nihai ekim öncesi yerel toprak kimyasal analizlerinin yapılması tavsiye edilir.',
   }
 };
