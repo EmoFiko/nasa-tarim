@@ -285,6 +285,14 @@
 
         <!-- Field Risk Notice -->
         <div id="riskWarningsRow" class="risk-notice-stack" style="display: none;"></div>
+        <section class="crop-health-panel section-block" id="cropHealthPanel" aria-labelledby="healthTitle">
+          <div class="health-panel-header"><div><span class="flow-kicker">SAGE / FIELD WATCH</span><h3 id="healthTitle" data-i18n="health_title">Bitki Sağlığı Gözlem Paneli</h3></div><span class="health-method" data-i18n="health_experimental">Deneysel model</span></div>
+          <p class="health-period" id="healthPeriod"></p>
+          <p class="health-description" data-i18n="health_intro">Son yedi günlük nem, sıcaklık ve yağışla hastalık ve zararlılara elverişli koşulları inceleyin.</p>
+          <div id="healthCards" class="health-cards"></div>
+          <details class="health-methodology"><summary data-i18n="health_method">Yöntem ve sınırlar</summary><p id="healthLimits"></p><p data-i18n="health_source">Kaynak: NASA POWER Daily · T2M / RH2M / PRECTOTCORR. Eşikler yerel olarak doğrulanmamış ön tarama kurallarıdır; hastalık veya enfeksiyon olasılığı değildir.</p></details>
+          <button type="button" id="healthAskAssistant" class="hero-btn-secondary" data-i18n="health_ask">Bu koşulları SAGE'e sor</button>
+        </section>
 
         <!-- Agro-Climate Sensor Strip -->
         <div class="sensor-ledger">
@@ -561,8 +569,20 @@
 
   </main>
 
+
+  <button type="button" id="openSageChat" class="sage-chat-launch" aria-controls="sageChat" aria-expanded="false"><svg aria-hidden="true" width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M21 11.5a8.5 8.5 0 0 1-8.5 8.5H4l-2 2V11.5a9.5 9.5 0 1 1 19 0Z"/><path d="M7 9h10M7 13h7"/></svg><span data-i18n="chat_open">SAGE'e sor</span></button>
+  <section id="sageChat" class="sage-chat" role="dialog" aria-labelledby="chatTitle" hidden>
+    <header class="chat-header"><div><span class="chat-kicker">NVIDIA NEMOTRON</span><h2 id="chatTitle" data-i18n="chat_title">Tarlanızın sohbet asistanı</h2></div><button id="closeSageChat" type="button" class="chat-close" aria-label="Close">×</button></header>
+    <div class="chat-context"><span class="chat-context-dot"></span><span id="chatContextLabel"></span><button id="resetSageChat" type="button" data-i18n="chat_reset">Temizle</button></div>
+    <div id="sageChatMessages" class="chat-messages" role="log" aria-live="polite"></div>
+    <div class="chat-suggestions"><button type="button" data-question="chat_q_plan" data-i18n="chat_q_plan">Bu plan neden önerildi?</button><button type="button" data-question="chat_q_health" data-i18n="chat_q_health">Tarlada nelere bakmalıyım?</button><button type="button" data-question="chat_q_water" data-i18n="chat_q_water">Suyu nasıl koruyabilirim?</button></div>
+    <form id="sageChatForm" class="chat-compose"><label for="sageChatInput" class="chat-input-label" data-i18n="chat_question">Sorunuz</label><textarea id="sageChatInput" rows="2" maxlength="2000" required></textarea><div class="chat-compose-bottom"><span id="chatCharCount">0 / 2000</span><button type="submit" id="sageChatSend" data-i18n="chat_send">Gönder</button></div></form>
+    <p class="chat-disclosure" data-i18n="chat_disclosure">Mesajınız, tarla konumu ve analiz özeti yanıt için NVIDIA'ya iletilir. Yanıtlar karar desteğidir; uzman teşhisi değildir.</p>
+  </section>
+
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="/static/i18n.js"></script>
   <script src="/static/app.js"></script>
+  <script src="/static/assistant.js"></script>
 </body>
 </html>

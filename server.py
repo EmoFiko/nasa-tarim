@@ -5,7 +5,13 @@ import json
 import os
 import urllib.request
 import urllib.parse
-from http.server import BaseHTTPRequestHandler, HTTPServer
+from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+import threading
+import time
+import math
+from collections import defaultdict, deque
+from logic.advisor import answer_chat, AdvisorError
+from logic.crop_health import crop_health
 
 POWER = "https://power.larc.nasa.gov/api/temporal/daily/point"
 POWER_MONTHLY = "https://power.larc.nasa.gov/api/temporal/monthly/point"
@@ -13,8 +19,23 @@ POWER_MONTHLY = "https://power.larc.nasa.gov/api/temporal/monthly/point"
 BASE = os.path.dirname(os.path.abspath(__file__))
 STATIC = os.path.join(BASE, "static")
 
+# Tiny stdlib .env reader: only allow known config keys; environment wins.
+try:
+    with open(os.path.join(BASE, '.env'), encoding='utf-8') as env_file:
+        for line in env_file:
+            name, sep, value = line.strip().partition('=')
+            if sep and name in ('NVIDIA_API_KEY', 'NVIDIA_MODEL'):
+                os.environ.setdefault(name, value.strip())
+except FileNotFoundError:
+    pass
 
-def power_veri(lat, lon, start, end, params="T2M,PRECTOTCORR,ALLSKY_SFC_SW_DWN,WS2M"):
+CHAT_LOCK = threading.Lock()
+CHAT_SLOTS = threading.BoundedSemaphore(2)
+CHAT_LIMITS = defaultdict(deque)
+
+
+
+def power_veri(lat, lon, start, end, params="T2M,PRECTOTCORR,ALLSKY_SFC_SW_DWN,WS2M,RH2M"):
     qs = urllib.parse.urlencode({
         "parameters": params,
         "community": "AG",
@@ -109,18 +130,19 @@ def power_cok_yillik(lat, lon, bitis_yili=2023, yil_sayisi=5, params="T2M,PRECTO
         return None
 
 
-def ortalama(veri_dict):
-    vals = [v for v in veri_dict.values() if isinstance(v, (int, float)) and v >= 0]
+def ortalama(veri_dict, minimum=0):
+    vals = [v for v in veri_dict.values() if isinstance(v, (int, float)) and math.isfinite(v) and v >= minimum]
     return round(sum(vals) / len(vals), 2) if vals else 0
 
 
 def analiz_et(veri):
     p = veri["properties"]["parameter"]
     ort = {
-        "sıcaklık_C": ortalama(p.get("T2M", {})),
+        "sıcaklık_C": ortalama(p.get("T2M", {}), minimum=-90),
         "yağış_mm_gun": ortalama(p.get("PRECTOTCORR", {})),
         "güneş_MJ_m2_gun": ortalama(p.get("ALLSKY_SFC_SW_DWN", {})),
         "rüzgar_m_s": ortalama(p.get("WS2M", {})),
+        "nem_yuzde": ortalama(p.get("RH2M", {})),
     }
     return ort
 
@@ -134,7 +156,6 @@ class Handler(BaseHTTPRequestHandler):
         self.send_response(code)
         self.send_header("Content-Type", content_type + "; charset=utf-8")
         self.send_header("Content-Length", str(len(b)))
-        self.send_header("Access-Control-Allow-Origin", "*")
         self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
         self.send_header("Access-Control-Allow-Headers", "Content-Type")
         self.end_headers()
@@ -145,7 +166,6 @@ class Handler(BaseHTTPRequestHandler):
 
     def do_OPTIONS(self):
         self.send_response(200)
-        self.send_header("Access-Control-Allow-Origin", "*")
         self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
         self.send_header("Access-Control-Allow-Headers", "Content-Type")
         self.end_headers()
@@ -163,7 +183,10 @@ class Handler(BaseHTTPRequestHandler):
         elif urllib.parse.urlsplit(self.path).path in ("/platform", "/platform/"):
             self._dosya(os.path.join(STATIC, "platform.html"), "text/html")
         elif self.path.startswith("/static/"):
-            dosya = os.path.join(STATIC, self.path[len("/static/"):])
+            dosya = os.path.realpath(os.path.join(STATIC, urllib.parse.unquote(urllib.parse.urlsplit(self.path).path[len("/static/"):])))
+            if not dosya.startswith(STATIC + os.sep):
+                self._json({"error":"forbidden"}, 403)
+                return
             ct = "text/css" if dosya.endswith(".css") else "application/javascript" if dosya.endswith(".js") else "text/plain"
             self._dosya(dosya, ct)
         elif self.path == "/api/bitkiler":
@@ -175,12 +198,52 @@ class Handler(BaseHTTPRequestHandler):
             self._json({"error": "bulunamadı"}, 404)
 
     def do_POST(self):
-        length = int(self.headers.get("Content-Length", 0))
+        origin = self.headers.get('Origin')
+        if origin and urllib.parse.urlsplit(origin).netloc != self.headers.get('Host'):
+            self._json({'error':'origin_not_allowed'}, 403)
+            return
+        try:
+            length = int(self.headers.get("Content-Length", 0))
+        except ValueError:
+            self._json({'error':'invalid_length'}, 400)
+            return
+        if not 0 < length <= 250000:
+            self._json({'error':'request_too_large'}, 413)
+            return
         raw = self.rfile.read(length)
         try:
             body = json.loads(raw.decode("utf-8"))
         except Exception:
             self._json({"error": "geçersiz json"}, 400)
+            return
+
+        if not isinstance(body, dict):
+            self._json({'error':'invalid_body'}, 400)
+            return
+
+        if self.path == '/api/chat':
+            now = time.monotonic()
+            with CHAT_LOCK:
+                # Bound retained IP entries on a public preview server.
+                if len(CHAT_LIMITS) > 2000:
+                    CHAT_LIMITS.clear()
+                calls = CHAT_LIMITS[self.client_address[0]]
+                while calls and calls[0] < now - 60:
+                    calls.popleft()
+                limited = len(calls) >= 6
+                if not limited:
+                    calls.append(now)
+            if limited or not CHAT_SLOTS.acquire(blocking=False):
+                self._json({'error':'rate_limited'}, 429)
+                return
+            try:
+                self._json(answer_chat(body))
+            except AdvisorError as exc:
+                self._json({'error':exc.code}, exc.status)
+            except Exception:
+                self._json({'error':'invalid_context'}, 400)
+            finally:
+                CHAT_SLOTS.release()
             return
 
         if self.path == "/api/analiz":
@@ -196,7 +259,7 @@ class Handler(BaseHTTPRequestHandler):
                 # 2026 ise 2023'e cap (henüz POWER'da mevcut olmayabilir)
                 bitis_yili = min(bitis_yili, 2023)
                 cok_yillik = power_cok_yillik(lat, lon, bitis_yili=bitis_yili, yil_sayisi=5)
-                self._json({"ortalama": ort, "raw": veri, "aylik": aylik, "cok_yillik": cok_yillik})
+                self._json({"ortalama": ort, "raw": veri, "aylik": aylik, "cok_yillik": cok_yillik, "bitki_sagligi": crop_health(veri, body.get("crop", ""), body.get("lang", "tr"))})
             except Exception as ex:
                 self._json({"error": str(ex)}, 500)
 
@@ -221,6 +284,7 @@ class Handler(BaseHTTPRequestHandler):
                     scenario=scenario, constraints=constraints, lang=lang,
                     cok_yillik=cok_yillik
                 )
+                sonuc["bitki_sagligi"] = crop_health(body.get("health_raw"), mevcut or "", lang)
                 self._json(sonuc)
             except Exception as ex:
                 self._json({"error": str(ex)}, 500)
@@ -240,5 +304,5 @@ if __name__ == "__main__":
     except OSError:
         port = 5001
     print(f"Sunucu başlatılıyor: http://localhost:{port}")
-    server = HTTPServer(("0.0.0.0", port), Handler)
+    server = ThreadingHTTPServer(("0.0.0.0", port), Handler)
     server.serve_forever()

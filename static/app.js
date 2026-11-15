@@ -28,7 +28,7 @@ function getFarmerJudgment(score, lang) {
   if (score >= 75) {
     return {
       title: lang === 'tr' ? 'Tam Tarlanın Malı' : 'Prime Field Match',
-      sub: lang === 'tr' ? 'Bu hava ve toprakta gözün kapalı ekebilirsin' : 'Ideal climate & soil conditions with minimum risk'
+      sub: lang === 'tr' ? 'İklim uyumu yüksek; toprak ve yerel koşulları doğrulayın' : 'High climate suitability; verify soil and local conditions'
     };
   } else if (score >= 50) {
     return {
@@ -78,6 +78,7 @@ let appState = {
   raw: null,
   aylik: null,
   cok_yillik: null,
+  bitki_sagligi: null,
   rotationResult: null
 };
 
@@ -352,6 +353,8 @@ function setLanguage(lang) {
     if (I18N[lang][key]) el.textContent = I18N[lang][key];
   });
 
+  window.dispatchEvent(new Event("sage:language"));
+
   // Update placeholders
   if (addressInput) {
     addressInput.placeholder = I18N[lang].ph_address;
@@ -435,16 +438,18 @@ async function runFullAnalysis() {
     const res = await fetch('/api/analiz', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ lat, lon, start, end })
+      body: JSON.stringify({ lat, lon, start, end, crop: mevcutCropSelect.value, lang: currentLang })
     });
 
     const data = await res.json();
     if (!res.ok || data.error) throw new Error(data.error || 'NASA POWER data unavailable.');
 
+    appState.analysisField = { lat, lon, start, end, field_size_decare: Number(fieldSizeInput.value) };
     appState.ort = data.ortalama;
     appState.raw = data.raw;
     appState.aylik = data.aylik || null;
     appState.cok_yillik = data.cok_yillik || null;
+    appState.bitki_sagligi = data.bitki_sagligi || null;
 
     valTemp.textContent = appState.ort.sıcaklık_C;
     valPrecip.textContent = appState.ort.yağış_mm_gun;
@@ -519,6 +524,7 @@ async function runRotationCalculation() {
     ortalama: appState.ort,
     aylik: appState.aylik || null,
     cok_yillik: appState.cok_yillik || null,
+    health_raw: appState.raw,
     oncelikler,
     mevcut: mevcutCropSelect.value || null,
     onceki: historyList.length > 0 ? historyList[0] : null,
@@ -538,6 +544,8 @@ async function runRotationCalculation() {
     const data = await res.json();
     if (!res.ok || data.error) throw new Error(data.error || 'Rotation could not be calculated.');
 
+    appState.rotationInputs = { oncelikler, mevcut: payload.mevcut, gecmis_bitkiler: historyList, scenario, constraints };
+    appState.bitki_sagligi = data.bitki_sagligi;
     appState.rotationResult = data;
     renderResultsUI(data);
 
@@ -580,6 +588,7 @@ function renderPlanExplanation(data) {
 
 function renderResultsUI(data) {
   renderPlanExplanation(data);
+  window.dispatchEvent(new Event("sage:analysis"));
   // Risk notices
   riskWarningsRow.innerHTML = '';
   if (data.risk_uyarilari && data.risk_uyarilari.length > 0) {

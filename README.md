@@ -94,3 +94,11 @@ Open your browser at:
 - `static/index.html`: Clean UI with interactive Leaflet map, statistical trend cards, 3-year roadmap, and scientific glossary.
 - `static/app.js`: State management, asynchronous API orchestration, Chart.js multi-axis charts, and dual-language switching.
 - `static/style.css`: Purposeful typography, responsive grid, status badges, and print-optimized styles.
+
+## Field Watch & contextual AI assistant
+
+The platform now includes a crop-health weather screening panel and an optional NVIDIA Nemotron chat assistant that can explain the current field analysis. NASA POWER Daily supplies relative humidity (`RH2M`) alongside existing climate parameters. Historical weather is explicitly dated; screening flags are experimental suitability indicators, not disease diagnoses or live forecasts.
+
+For AI chat, copy `.env.example` to `.env` and supply `NVIDIA_API_KEY`, then start `python3 server.py`. Analysis remains available without a configured AI key. The key is used only on the server. Never commit `.env`.
+
+See [configuration, rule definitions and limitations](docs/field-watch-and-ai.md). Run `python3 -m unittest discover -s tests -v` for the backend checks.
