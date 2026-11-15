@@ -229,12 +229,14 @@ class Handler(BaseHTTPRequestHandler):
 if __name__ == "__main__":
     import os, socket
     port = int(os.environ.get("PORT", 5000))
-    # Try port, fall back to 5001 if in use
-    s = socket.socket()
+    # Try port with SO_REUSEADDR
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     try:
         s.bind(("0.0.0.0", port))
         s.close()
     except OSError:
         port = 5001
     print(f"Sunucu başlatılıyor: http://localhost:{port}")
-    HTTPServer(("0.0.0.0", port), Handler).serve_forever()
+    server = HTTPServer(("0.0.0.0", port), Handler)
+    server.serve_forever()
