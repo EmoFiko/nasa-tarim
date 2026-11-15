@@ -346,6 +346,22 @@
           </div>
         </div>
 
+        <!-- SI: Statistical Trend Analysis Panel -->
+        <section class="si-trend-section" id="siTrendSection" style="display:none;">
+          <div class="si-trend-head">
+            <div class="si-trend-title-row">
+              <svg class="ui-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+              <h3 data-i18n="si_title">İstatistiksel Trend Analizi (SI)</h3>
+            </div>
+            <span class="si-badge" id="siConfidenceBadge">NASA POWER 5 Yıllık Veri</span>
+          </div>
+          <div class="si-trend-body">
+            <div class="si-trend-cards" id="siTrendCards"></div>
+            <p class="si-interpretation" id="siInterpretation"></p>
+            <p class="si-uncertainty" data-i18n="si_uncertainty">Model belirsizliği: Uzun dönem trendler R² katsayısıyla değerlendirilmiştir. Yerel mikro-iklim farklılıkları bu tahmini etkileyebilir; bölgenizin tarım uzmanına danışın.</p>
+          </div>
+        </section>
+
         <!-- 3-Year Rotation Plan Roadmap -->
         <section class="rotation-roadmap-section" id="rotationRoadmapSection">
           <div class="roadmap-head">
@@ -446,7 +462,59 @@
               <span class="prov-tag">NASA POWER Monthly Point</span>
               <p data-i18n="prov_monthly">Sentetik tahminler yerine NASA'nın 12 aylık gerçek iklim serisiyle gerçeğe tam uygun stres takvimi üretir.</p>
             </div>
+            <div class="provenance-item">
+              <span class="prov-tag prov-tag-esa">ESA Copernicus Sentinel-2</span>
+              <p data-i18n="prov_sentinel">10–20m çözünürlüklü multispektral görüntü. Red-edge, NIR ve SWIR bantlarıyla NDVI/EVI hesabı ve tarla ölçeğinde bitki stresi haritalaması.</p>
+            </div>
+            <div class="provenance-item">
+              <span class="prov-tag prov-tag-esa">ERA5 (ECMWF Reanalysis)</span>
+              <p data-i18n="prov_era5">Saatlik küresel reanaliz: sıcaklık, nem, rüzgar, toprak sıcaklığı/nemi. NASA gözlemlerinin kapsamadığı dönemler ve seyrek istasyon bölgelerinde tamamlayıcı zaman serisi kaynağı.</p>
+            </div>
+            <div class="provenance-item">
+              <span class="prov-tag prov-tag-nasa">NASA SMAP</span>
+              <p data-i18n="prov_smap">2–3 günde bir küresel yüzey toprak nemi ve don/çözülme ölçümü. Kuraklık erken uyarısı ve sulama zamanlaması için tamamlayıcı katman.</p>
+            </div>
+            <div class="provenance-item">
+              <span class="prov-tag prov-tag-nasa">NASA SRTM &amp; GPM/IMERG</span>
+              <p data-i18n="prov_srtm_gpm">SRTM: Küresel eğim/topoğrafya — erozyon riski ve yüzey akışı modellemesi. GPM/IMERG: Küresel yağış birikimi — ekstrem yağış frekansı ve toprak erozyonu değerlendirmesi.</p>
+            </div>
           </div>
+
+          <!-- Bilimsel Terim Sözlüğü -->
+          <details class="glossary-drawer">
+            <summary class="drawer-summary" data-i18n="glossary_title">Bilimsel Terimler Sözlüğü</summary>
+            <div class="glossary-grid">
+              <div class="glossary-item">
+                <span class="glossary-term">NDVI</span>
+                <p class="glossary-def" data-i18n="gls_ndvi">Normalize Fark Bitki Örtüsü İndeksi. -1 ile +1 arası ölçek; 0.6 üzeri sağlıklı yeşil örtüyü, 0 altı çıplak toprağı gösterir. Sentinel-2 ve Landsat NIR/kırmızı bantlarından hesaplanır.</p>
+              </div>
+              <div class="glossary-item">
+                <span class="glossary-term">Evapotranspiration (ET)</span>
+                <p class="glossary-def" data-i18n="gls_et">Topraktan buharlaşma + bitkiden terlemenin toplamı. Bitki su gereksiniminin doğrudan ölçüsüdür. ECOSTRESS ve NASA POWER'ın birleşimi ET'yi tarla ölçeğinde tahmin eder.</p>
+              </div>
+              <div class="glossary-item">
+                <span class="glossary-term">Toprak Nemi Anomalisi</span>
+                <p class="glossary-def" data-i18n="gls_sma">Mevcut toprak neminin uzun dönem ortalamasından sapma miktarı (Z-skoru). Pozitif anomali aşırı ıslaklık, negatif anomali kuraklık stresini işaret eder.</p>
+              </div>
+              <div class="glossary-item">
+                <span class="glossary-term">Don Riski (Frost Risk)</span>
+                <p class="glossary-def" data-i18n="gls_frost">Minimum sıcaklığın 0°C altına düştüğü dönem. Çimlendikten sonraki ilk 2 haftada don, bitkiyi tamamen yok edebilir. Bu araç NASA POWER T2M eşiğini 5°C altı olarak işaretler.</p>
+              </div>
+              <div class="glossary-item">
+                <span class="glossary-term">Su Dengesi (Water Balance)</span>
+                <p class="glossary-def" data-i18n="gls_wb">Yağış eksi evapotranspirasyon. Pozitif denge fazla su / taşma; negatif denge sulama ihtiyacını gösterir.</p>
+              </div>
+              <div class="glossary-item">
+                <span class="glossary-term">Uydu vs Yerüstü Ölçüm</span>
+                <p class="glossary-def" data-i18n="gls_sat_vs_ground">Uydu verileri geniş alanı kapsar ancak piksel ortalaması alır (250m–10km). Yerüstü sensörler nokta-ölçüm yapar ama daha az kapsam sunar. En doğru sonuç ikisinin birlikte kullanılmasıyla elde edilir.</p>
+              </div>
+              <div class="glossary-item">
+                <span class="glossary-term">Model Belirsizliği</span>
+                <p class="glossary-def" data-i18n="gls_uncertainty">Bu aracın önerileri NASA iklim istatistiklerine dayalı ihtimaliyet tahminleridir. Yerel toprak kimyası, tohum kalitesi ve mikro-iklim farklılıkları sonucu değiştirebilir; uzman danışmanlığı tavsiye edilir.</p>
+              </div>
+            </div>
+          </details>
+
           <p class="advisory-legal" data-i18n="advisory_note">Bu sistem karar destek amaçlıdır. Nihai ekim öncesi yerel toprak kimyasal analizlerinin yapılması tavsiye edilir.</p>
         </footer>
 

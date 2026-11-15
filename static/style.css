@@ -1345,6 +1345,174 @@ body {
   border-radius: 2px;
   margin-bottom: 3px;
 }
+.prov-tag-esa {
+  color: #1a5276;
+  background: #e8f0fe;
+  border: 1px solid #c2d7f2;
+}
+.prov-tag-nasa {
+  color: #1b4d3e;
+  background: #e6f4ea;
+  border: 1px solid #b7e1cd;
+}
+
+/* Scientific Terms Glossary Drawer */
+.glossary-drawer {
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-card);
+  padding: 12px 18px;
+  margin: 16px 0;
+  transition: all 0.2s ease;
+}
+.glossary-drawer[open] {
+  padding-bottom: 18px;
+  border-color: var(--c-border-strong);
+}
+.drawer-summary {
+  font-family: var(--font-serif);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--c-earth-deep);
+  cursor: pointer;
+  user-select: none;
+  outline: none;
+  padding: 4px 0;
+}
+.drawer-summary:hover {
+  color: var(--c-crop-green);
+}
+.glossary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 14px;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--c-border);
+}
+.glossary-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.glossary-term {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--c-crop-green);
+  letter-spacing: 0.02em;
+}
+.glossary-def {
+  font-size: 12px;
+  color: var(--c-earth-body);
+  line-height: 1.45;
+}
+
+/* Statistical Trend Analysis (SI) Section */
+.si-trend-section {
+  background: var(--c-surface);
+  border: 1.5px solid #d4dfcc;
+  border-radius: var(--radius-card);
+  padding: 20px;
+  margin-bottom: 24px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+}
+.si-trend-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--c-border);
+}
+.si-trend-title-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.si-trend-title-row h3 {
+  font-family: var(--font-serif);
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--c-earth-deep);
+}
+.si-badge {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--c-crop-green);
+  background: var(--c-crop-green-tint);
+  border: 1px solid #c2e0c8;
+  padding: 3px 9px;
+  border-radius: var(--radius-sharp);
+}
+.si-trend-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 14px;
+  margin-bottom: 16px;
+}
+.si-card {
+  background: var(--c-field-canvas);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-field);
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.si-card-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--c-earth-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+.si-card-metric {
+  font-family: var(--font-mono);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--c-earth-deep);
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+.si-card-sub {
+  font-size: 11.5px;
+  color: var(--c-earth-muted);
+}
+.si-card-anomaly {
+  display: inline-block;
+  margin-top: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 2px;
+}
+.si-card-anomaly.anomaly-warn {
+  color: var(--c-risk-red);
+  background: var(--c-risk-tint);
+}
+.si-card-anomaly.anomaly-norm {
+  color: var(--c-crop-green);
+  background: var(--c-crop-green-tint);
+}
+.si-interpretation {
+  font-size: 13px;
+  color: var(--c-earth-body);
+  line-height: 1.5;
+  background: #fdfaf4;
+  border-left: 3px solid var(--c-amber-grain);
+  padding: 10px 14px;
+  border-radius: 0 var(--radius-sharp) var(--radius-sharp) 0;
+  margin-bottom: 10px;
+}
+.si-uncertainty {
+  font-size: 11.5px;
+  color: var(--c-earth-muted);
+  line-height: 1.4;
+  font-style: italic;
+}
 .advisory-legal {
   font-size: 11.5px;
   color: var(--c-earth-muted);

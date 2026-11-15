@@ -57,6 +57,58 @@ def power_aylik(lat, lon, year="2023", params="T2M,PRECTOTCORR"):
         return None
 
 
+def power_cok_yillik(lat, lon, bitis_yili=2023, yil_sayisi=5, params="T2M,PRECTOTCORR"):
+    """
+    SI Trend Analizi için son N yılın yıllık ortalama değerlerini çeker.
+    NASA POWER Monthly API kullanılır, tek çağrıda tüm aralık sorgulanır.
+    Döndürür: {'yillar': [...], 'sicaklik': [...], 'yagis': [...]}
+    """
+    baslangic_yili = bitis_yili - yil_sayisi + 1
+    qs = urllib.parse.urlencode({
+        "parameters": params,
+        "community": "AG",
+        "longitude": lon,
+        "latitude": lat,
+        "start": str(baslangic_yili),
+        "end": str(bitis_yili),
+        "format": "JSON",
+    })
+    url = f"{POWER_MONTHLY}?{qs}"
+    try:
+        with urllib.request.urlopen(url, timeout=20) as r:
+            veri = json.loads(r.read().decode("utf-8"))
+        if not veri or "properties" not in veri or "parameter" not in veri["properties"]:
+            return None
+        p = veri["properties"]["parameter"]
+        t2m_dict = p.get("T2M", {})
+        prec_dict = p.get("PRECTOTCORR", {})
+
+        gecerli_yillar = []
+        sicaklik_listesi = []
+        yagis_listesi = []
+
+        for y in range(baslangic_yili, bitis_yili + 1):
+            ann_key = f"{y}13"
+            t_val = t2m_dict.get(ann_key)
+            p_val = prec_dict.get(ann_key)
+            if t_val is not None and p_val is not None and t_val > -90 and p_val >= 0:
+                gecerli_yillar.append(y)
+                sicaklik_listesi.append(round(float(t_val), 2))
+                yagis_listesi.append(round(float(p_val), 3))
+
+        if len(sicaklik_listesi) < 2:
+            return None
+
+        return {
+            "yillar": gecerli_yillar,
+            "sicaklik": sicaklik_listesi,
+            "yagis": yagis_listesi,
+        }
+    except Exception as ex:
+        print(f"power_cok_yillik hata: {ex}")
+        return None
+
+
 def ortalama(veri_dict):
     vals = [v for v in veri_dict.values() if isinstance(v, (int, float)) and v >= 0]
     return round(sum(vals) / len(vals), 2) if vals else 0
@@ -137,7 +189,12 @@ class Handler(BaseHTTPRequestHandler):
                 # 12 aylık gerçek NASA verisi al
                 yil = start[:4] if len(str(start)) >= 4 else "2023"
                 aylik = power_aylik(lat, lon, year=yil)
-                self._json({"ortalama": ort, "raw": veri, "aylik": aylik})
+                # SI: Son 5 yıllık trend verisi (paralel değil, arka planda hafif çekiliyor)
+                bitis_yili = int(yil) if yil.isdigit() else 2023
+                # 2026 ise 2023'e cap (henüz POWER'da mevcut olmayabilir)
+                bitis_yili = min(bitis_yili, 2023)
+                cok_yillik = power_cok_yillik(lat, lon, bitis_yili=bitis_yili, yil_sayisi=5)
+                self._json({"ortalama": ort, "raw": veri, "aylik": aylik, "cok_yillik": cok_yillik})
             except Exception as ex:
                 self._json({"error": str(ex)}, 500)
 
@@ -152,13 +209,15 @@ class Handler(BaseHTTPRequestHandler):
                 onceki = body.get("onceki")
                 gecmis_bitkiler = body.get("gecmis_bitkiler", [])
                 aylik = body.get("aylik")
+                cok_yillik = body.get("cok_yillik")
                 scenario = body.get("scenario")
                 constraints = body.get("constraints")
                 lang = body.get("lang", "en")
                 sonuc = rotasyon_oneri(
                     ort, oncelikler, mevcut, onceki=onceki,
                     gecmis_bitkiler=gecmis_bitkiler, aylik=aylik,
-                    scenario=scenario, constraints=constraints, lang=lang
+                    scenario=scenario, constraints=constraints, lang=lang,
+                    cok_yillik=cok_yillik
                 )
                 self._json(sonuc)
             except Exception as ex:

@@ -1,5 +1,6 @@
 import json
 import os
+import math
 
 DATA_DIR = os.path.join(os.path.dirname(__file__), "..", "data")
 
@@ -94,6 +95,118 @@ LANG = {
 def load_crops():
     with open(os.path.join(DATA_DIR, "crops.json"), encoding="utf-8") as f:
         return json.load(f)
+
+
+# ---------------------------------------------------------------------------
+# SI: Statistical Inference — Linear Trend & Anomaly Detection
+# ---------------------------------------------------------------------------
+
+def linear_trend(values):
+    """
+    Basit en küçük kareler regresyonu (OLS) ile y = a*x + b doğrusu.
+    Girdi: sayı listesi (sıralı zaman serisi).
+    Döndürür: {'slope': eğim, 'intercept': sabit, 'r2': açıklayıcılık katsayısı}
+    """
+    n = len(values)
+    if n < 2:
+        return {"slope": 0.0, "intercept": values[0] if values else 0.0, "r2": 0.0}
+
+    xs = list(range(n))
+    x_mean = sum(xs) / n
+    y_mean = sum(values) / n
+
+    num   = sum((xs[i] - x_mean) * (values[i] - y_mean) for i in range(n))
+    denom = sum((xs[i] - x_mean) ** 2 for i in range(n))
+
+    slope     = num / denom if denom != 0 else 0.0
+    intercept = y_mean - slope * x_mean
+
+    ss_res = sum((values[i] - (slope * xs[i] + intercept)) ** 2 for i in range(n))
+    ss_tot = sum((v - y_mean) ** 2 for v in values)
+    r2 = 1 - (ss_res / ss_tot) if ss_tot > 1e-9 else 0.0
+
+    return {
+        "slope": round(slope, 4),
+        "intercept": round(intercept, 2),
+        "r2": round(max(0.0, r2), 3),
+    }
+
+
+def anomaly_score(value, historical_values):
+    """
+    Z-score tabanlı anomali skoru.
+    Dönüş: {'z': z_skoru, 'anomaly': True/False, 'direction': 'above'/'below'/'normal'}
+    """
+    if not historical_values or len(historical_values) < 2:
+        return {"z": 0.0, "anomaly": False, "direction": "normal"}
+
+    n    = len(historical_values)
+    mean = sum(historical_values) / n
+    std  = math.sqrt(sum((v - mean) ** 2 for v in historical_values) / n)
+
+    if std < 1e-9:
+        return {"z": 0.0, "anomaly": False, "direction": "normal"}
+
+    z = (value - mean) / std
+    direction = "above" if z > 0 else "below" if z < 0 else "normal"
+    return {
+        "z": round(z, 2),
+        "anomaly": abs(z) > 1.5,
+        "direction": direction,
+    }
+
+
+def si_analiz(cok_yillik_veri, lang="tr"):
+    """
+    Çok yıllık NASA POWER verisinden istatistiksel trend ve anomali analizi üretir.
+    Girdi: {'yillar': [2019,..2023], 'sicaklik': [ort1,..], 'yagis': [ort1,..]}
+    Döndürür: {'sicaklik_trend': {...}, 'yagis_trend': {...}, 'yorumlama': str, 'guven_duzeyi': 0-100}
+    """
+    yillar    = cok_yillik_veri.get("yillar", [])
+    sicaklik  = cok_yillik_veri.get("sicaklik", [])
+    yagis     = cok_yillik_veri.get("yagis", [])
+
+    if not sicaklik or not yagis:
+        return None
+
+    t_trend = linear_trend(sicaklik)
+    p_trend = linear_trend(yagis)
+
+    # Anomali: son yıl vs geçmiş
+    t_anomali = anomaly_score(sicaklik[-1], sicaklik[:-1]) if len(sicaklik) > 1 else None
+    p_anomali = anomaly_score(yagis[-1], yagis[:-1]) if len(yagis) > 1 else None
+
+    # Güven düzeyi: R² ortalaması ölçeklenmiş
+    guven = int(round(((t_trend["r2"] + p_trend["r2"]) / 2) * 100))
+
+    # Yorumlama
+    t_yon = "ısınıyor" if t_trend["slope"] > 0.1 else ("soğuyor" if t_trend["slope"] < -0.1 else "stabil")
+    p_yon = "kuruyor"  if p_trend["slope"] < -0.05 else ("ıslanıyor" if p_trend["slope"] > 0.05 else "stabil")
+    t_yon_en = "warming" if t_trend["slope"] > 0.1 else ("cooling" if t_trend["slope"] < -0.1 else "stable")
+    p_yon_en = "drying"  if p_trend["slope"] < -0.05 else ("wetting" if p_trend["slope"] > 0.05 else "stable")
+
+    if lang == "tr":
+        yorum = (
+            f"Son {len(yillar)} yıllık NASA POWER verisi: "
+            f"Sıcaklık eğilimi {t_yon} ({t_trend['slope']:+.2f}°C/yıl), "
+            f"yağış rejimi {p_yon} ({p_trend['slope']:+.3f} mm/gün/yıl). "
+            f"Model açıklayıcılığı R²={t_trend['r2']:.2f} (sıcaklık), R²={p_trend['r2']:.2f} (yağış)."
+        )
+    else:
+        yorum = (
+            f"NASA POWER {len(yillar)}-year trend: "
+            f"Temperature is {t_yon_en} ({t_trend['slope']:+.2f}°C/yr), "
+            f"precipitation regime is {p_yon_en} ({p_trend['slope']:+.3f} mm/day/yr). "
+            f"Model fit R²={t_trend['r2']:.2f} (temp), R²={p_trend['r2']:.2f} (precip)."
+        )
+
+    return {
+        "sicaklik_trend": {**t_trend, "anomali": t_anomali},
+        "yagis_trend": {**p_trend, "anomali": p_anomali},
+        "yorumlama": yorum,
+        "guven_duzeyi": guven,
+        "yillar": yillar,
+    }
 
 
 def clima_uygunluk(ort, crop):
@@ -462,7 +575,7 @@ def rotasyon_dizisi_uret(tum_bitkiler, crops, gecmis_list=None, lang="tr"):
     return dizi
 
 
-def rotasyon_oneri(ort, oncelikler, mevcut=None, onceki=None, gecmis_bitkiler=None, aylik=None, crops=None, scenario=None, constraints=None, lang="tr"):
+def rotasyon_oneri(ort, oncelikler, mevcut=None, onceki=None, gecmis_bitkiler=None, aylik=None, crops=None, scenario=None, constraints=None, lang="tr", cok_yillik=None):
     """
     3 farklı rotasyon stratejisi + 3 yıllık ekim nöbeti dizisi + stres takvimi + risk uyarıları + dil desteği.
     """
@@ -568,6 +681,7 @@ def rotasyon_oneri(ort, oncelikler, mevcut=None, onceki=None, gecmis_bitkiler=No
         "tum_bitkiler": tum_bitkiler[:8],
         "stres_takvimi": stres_takvimi(ort_s, lang, aylik_veri=aylik),
         "risk_uyarilari": risk_uyarilari(ort_s, lang),
+        "si_analiz": si_analiz(cok_yillik, lang) if cok_yillik else None,
         "dil": lang,
         "senaryo": scenario,
         "kisitlamalar": constraints,

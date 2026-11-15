@@ -92,6 +92,25 @@ const I18N = {
     prov_precip: 'NASA daily & monthly precipitation regimes identify drought risks and filter rainfed vs irrigated crops.',
     prov_solar: 'Solar irradiance models photosynthetic potential and validates the 12-month vegetative NDVI curve.',
     prov_monthly: 'Eliminates guesswork by anchoring the stress timeline directly to NASA Monthly point climate series.',
+    prov_sentinel: '10–20m multispectral imagery. Red-edge, NIR and SWIR bands enable NDVI/EVI computation and field-scale vegetation stress mapping.',
+    prov_era5: 'Hourly global reanalysis: temperature, humidity, wind, soil moisture. Fills temporal gaps and sparse-station regions as complementary time series.',
+    prov_smap: 'Global surface soil moisture and freeze/thaw mapping every 2–3 days. Complementary layer for drought early-warning and irrigation scheduling.',
+    prov_srtm_gpm: 'SRTM: global slope/terrain for erosion risk and runoff modelling. GPM/IMERG: global precipitation accumulation for extreme-rainfall frequency assessment.',
+    si_title: 'Statistical Trend Analysis (SI)',
+    si_badge: 'NASA POWER 5-Year Dataset',
+    si_uncertainty: 'Model uncertainty: long-term trends evaluated via R² coefficient. Local micro-climate variation may affect estimates; consult a regional agronomist.',
+    si_temp_trend: 'Temperature Trend',
+    si_precip_trend: 'Precipitation Trend',
+    si_confidence: 'Model Fit (R²)',
+    si_per_year: '/yr',
+    glossary_title: 'Scientific Terms Glossary',
+    gls_ndvi: 'Normalized Difference Vegetation Index. Scale -1 to +1; above 0.6 = healthy green cover, below 0 = bare soil. Computed from Sentinel-2 and Landsat NIR/red bands.',
+    gls_et: 'Evapotranspiration: soil evaporation + plant transpiration. Direct measure of crop water demand. ECOSTRESS + NASA POWER together estimate ET at field scale.',
+    gls_sma: 'Soil Moisture Anomaly: deviation of current soil moisture from long-term mean (Z-score). Positive = excess moisture; negative = drought stress.',
+    gls_frost: 'Period when minimum temperature drops below 0°C. Frost in the first 2 weeks post-germination can destroy the crop entirely. This tool flags NASA POWER T2M below 5°C.',
+    gls_wb: 'Water Balance: Precipitation minus evapotranspiration. Positive = excess water / runoff; negative = irrigation need.',
+    gls_sat_vs_ground: 'Satellite data covers large areas but averages pixels (250m–10km). Ground sensors measure at a point but offer less coverage. Best results come from combining both.',
+    gls_uncertainty: "This tool's recommendations are probabilistic estimates based on NASA climate statistics. Local soil chemistry, seed quality, and micro-climate variation can affect outcomes; expert consultation advised.",
     advisory_note: 'Decision-support tool based on NASA POWER agroclimatology. Field-specific soil test validation is advised.',
   },
   tr: {
@@ -183,6 +202,25 @@ const I18N = {
     prov_precip: 'Günlük ve aylık yağış rejimleri kuraklık stresini belirler; kuru tarım / sulu tarım rotasını filtreler.',
     prov_solar: 'Yüzey güneş ışınımı verisi fotosentez potansiyelini ve 12 aylık fenolojik bitki gelişim (NDVI) eğrisini modeller.',
     prov_monthly: 'Sentetik tahminler yerine NASA\'nın 12 aylık gerçek iklim serisiyle gerçeğe tam uygun stres takvimi üretir.',
+    prov_sentinel: '10–20m çözünürlüklü multispektral görüntü. Red-edge, NIR ve SWIR bantlarıyla NDVI/EVI hesabı ve tarla ölçeğinde bitki stresi haritalaması.',
+    prov_era5: 'Saatlik küresel reanaliz: sıcaklık, nem, rüzgar, toprak sıcaklığı/nemi. NASA gözlemlerinin kapsamadığı dönemler ve seyrek istasyon bölgelerinde tamamlayıcı zaman serisi kaynağı.',
+    prov_smap: '2–3 günde bir küresel yüzey toprak nemi ve don/çözülme ölçümü. Kuraklık erken uyarısı ve sulama zamanlaması için tamamlayıcı katman.',
+    prov_srtm_gpm: 'SRTM: Küresel eğim/topoğrafya — erozyon riski ve yüzey akışı modellemesi. GPM/IMERG: küresel yağış birikimi ve ekstrem yağış frekansı değerlendirmesi.',
+    si_title: 'İstatistiksel Trend Analizi (SI)',
+    si_badge: 'NASA POWER 5 Yıllık Veri',
+    si_uncertainty: 'Model belirsizliği: Uzun dönem trendler R² katsayısıyla değerlendirilmiştir. Yerel mikro-iklim farklılıkları bu tahmini etkileyebilir; bölgenizin tarım uzmanına danışın.',
+    si_temp_trend: 'Sıcaklık Trendi',
+    si_precip_trend: 'Yağış Trendi',
+    si_confidence: 'Model Uyumu (R²)',
+    si_per_year: '/yıl',
+    glossary_title: 'Bilimsel Terimler Sözlüğü',
+    gls_ndvi: 'Normalize Fark Bitki Örtüsü İndeksi. -1 ile +1 arası ölçek; 0.6 üzeri sağlıklı yeşil örtüyü, 0 altı çıplak toprağı gösterir. Sentinel-2 ve Landsat NIR/kırmızı bantlarından hesaplanır.',
+    gls_et: 'Evapotranspirasyon: toprak buharlaşması + bitki terlemesinin toplamı. Bitki su gereksiniminin doğrudan ölçüsü. ECOSTRESS ve NASA POWER ET\'yi tarla ölçeğinde tahmin eder.',
+    gls_sma: 'Toprak Nemi Anomalisi: mevcut toprak neminin uzun dönem ortalamasından sapma (Z-skoru). Pozitif = aşırı ıslaklık; negatif = kuraklık stresi.',
+    gls_frost: 'Minimum sıcaklığın 0°C altına düştüğü dönem. Çimlenmeden sonraki ilk 2 haftada don bitkiyi tamamen yok edebilir. Bu araç NASA POWER T2M 5°C altını işaretler.',
+    gls_wb: 'Su Dengesi: Yağış eksi evapotranspirasyon. Pozitif = fazla su/taşma; negatif = sulama ihtiyacı.',
+    gls_sat_vs_ground: 'Uydu verileri geniş alanı kapsar ancak piksel ortalaması alır (250m–10km). Yerüstü sensörler nokta-ölçüm yapar ama daha az kapsam sunar. En doğru sonuç ikisinin birlikte kullanılmasıyla elde edilir.',
+    gls_uncertainty: 'Bu aracın önerileri NASA iklim istatistiklerine dayalı ihtimaliyet tahminleridir. Yerel toprak kimyası, tohum kalitesi ve mikro-iklim farklılıkları sonucu değiştirebilir; uzman danışmanlığı tavsiye edilir.',
     advisory_note: 'Bu sistem karar destek amaçlıdır. Nihai ekim öncesi yerel toprak kimyasal analizlerinin yapılması tavsiye edilir.',
   }
 };
@@ -263,6 +301,8 @@ let currentLang = 'tr';
 let appState = {
   ort: null,
   raw: null,
+  aylik: null,
+  cok_yillik: null,
   rotationResult: null
 };
 
@@ -628,6 +668,7 @@ async function runFullAnalysis() {
     appState.ort = data.ortalama;
     appState.raw = data.raw;
     appState.aylik = data.aylik || null;
+    appState.cok_yillik = data.cok_yillik || null;
 
     valTemp.textContent = appState.ort.sıcaklık_C;
     valPrecip.textContent = appState.ort.yağış_mm_gun;
@@ -701,6 +742,7 @@ async function runRotationCalculation() {
   const payload = {
     ortalama: appState.ort,
     aylik: appState.aylik || null,
+    cok_yillik: appState.cok_yillik || null,
     oncelikler,
     mevcut: mevcutCropSelect.value || null,
     onceki: historyList.length > 0 ? historyList[0] : null,
@@ -771,6 +813,9 @@ function renderResultsUI(data) {
     updateIncomeCard(data);
   }
 
+  // Statistical Trend Analysis (SI) Panel
+  renderSITrendUI(data.si_analiz);
+
   // 3-Year Rotation Plan Roadmap Cards
   const rotationGrid = document.getElementById('rotationCardsGrid');
   if (rotationGrid && data.rotasyon_plani) {
@@ -839,6 +884,68 @@ function renderResultsUI(data) {
 
   // Stress Chart
   if (data.stres_takvimi) renderStressChart(data.stres_takvimi);
+}
+
+function renderSITrendUI(si) {
+  const section = document.getElementById('siTrendSection');
+  const cardsContainer = document.getElementById('siTrendCards');
+  const interpEl = document.getElementById('siInterpretation');
+  const badgeEl = document.getElementById('siConfidenceBadge');
+
+  if (!section || !cardsContainer) return;
+
+  if (!si || !si.sicaklik_trend || !si.yagis_trend) {
+    section.style.display = 'none';
+    return;
+  }
+
+  section.style.display = 'block';
+
+  const tTrend = si.sicaklik_trend;
+  const pTrend = si.yagis_trend;
+  const tSlopeStr = `${tTrend.slope > 0 ? '+' : ''}${tTrend.slope.toFixed(2)}°C${I18N[currentLang].si_per_year}`;
+  const pSlopeStr = `${pTrend.slope > 0 ? '+' : ''}${pTrend.slope.toFixed(3)} mm${I18N[currentLang].si_per_year}`;
+
+  const tAnom = tTrend.anomali;
+  const pAnom = pTrend.anomali;
+
+  function anomalyBadge(anom) {
+    if (!anom) return '';
+    if (anom.anomaly) {
+      const dirText = anom.direction === 'above' 
+        ? (currentLang === 'tr' ? 'Ortalama Üstü (+Z)' : 'Above Mean (+Z)')
+        : (currentLang === 'tr' ? 'Ortalama Altı (-Z)' : 'Below Mean (-Z)');
+      return `<span class="si-card-anomaly anomaly-warn">Z=${anom.z} · ${dirText}</span>`;
+    }
+    return `<span class="si-card-anomaly anomaly-norm">${currentLang === 'tr' ? 'Normal Aralık (Z=' + anom.z + ')' : 'Normal Range (Z=' + anom.z + ')'}</span>`;
+  }
+
+  cardsContainer.innerHTML = `
+    <div class="si-card">
+      <span class="si-card-label">${I18N[currentLang].si_temp_trend}</span>
+      <div class="si-card-metric">${tSlopeStr}</div>
+      <span class="si-card-sub">OLS: R² = ${tTrend.r2.toFixed(2)}</span>
+      ${anomalyBadge(tAnom)}
+    </div>
+    <div class="si-card">
+      <span class="si-card-label">${I18N[currentLang].si_precip_trend}</span>
+      <div class="si-card-metric">${pSlopeStr}</div>
+      <span class="si-card-sub">OLS: R² = ${pTrend.r2.toFixed(2)}</span>
+      ${anomalyBadge(pAnom)}
+    </div>
+    <div class="si-card">
+      <span class="si-card-label">${I18N[currentLang].si_confidence}</span>
+      <div class="si-card-metric">${si.guven_duzeyi}%</div>
+      <span class="si-card-sub">${currentLang === 'tr' ? 'Ortalama Korelasyon Uyumu' : 'Mean Correlation Fit'}</span>
+    </div>
+  `;
+
+  if (interpEl) interpEl.textContent = si.yorumlama || '';
+  if (badgeEl && si.yillar && si.yillar.length) {
+    badgeEl.textContent = currentLang === 'tr' 
+      ? `NASA POWER ${si.yillar[0]}–${si.yillar[si.yillar.length - 1]} (${si.yillar.length} Yıl)`
+      : `NASA POWER ${si.yillar[0]}–${si.yillar[si.yillar.length - 1]} (${si.yillar.length} Years)`;
+  }
 }
 
 function renderStressChart(stress) {
@@ -969,8 +1076,25 @@ function downloadReport() {
     lines.push('');
   });
 
+  if (res.si_analiz) {
+    const si = res.si_analiz;
+    lines.push('3. STATISTICAL INFERENCE (SI) & 5-YEAR CLIMATE TREND');
+    lines.push('-----------------------------------------------------');
+    lines.push(`- Temperature Trend: ${si.sicaklik_trend.slope > 0 ? '+' : ''}${si.sicaklik_trend.slope}°C/yr (R²=${si.sicaklik_trend.r2})`);
+    if (si.sicaklik_trend.anomali) {
+      lines.push(`  Anomaly (latest year): Z=${si.sicaklik_trend.anomali.z} (${si.sicaklik_trend.anomali.anomaly ? 'Significant Anomaly' : 'Normal Range'})`);
+    }
+    lines.push(`- Precipitation Trend: ${si.yagis_trend.slope > 0 ? '+' : ''}${si.yagis_trend.slope} mm/day/yr (R²=${si.yagis_trend.r2})`);
+    if (si.yagis_trend.anomali) {
+      lines.push(`  Anomaly (latest year): Z=${si.yagis_trend.anomali.z} (${si.yagis_trend.anomali.anomaly ? 'Significant Anomaly' : 'Normal Range'})`);
+    }
+    lines.push(`- Model Fit / Confidence: ${si.guven_duzeyi}%`);
+    lines.push(`- Interpretation: ${si.yorumlama}`);
+    lines.push('');
+  }
+
   if (res.risk_uyarilari && res.risk_uyarilari.length) {
-    lines.push('3. RISK WARNINGS');
+    lines.push('4. RISK WARNINGS');
     lines.push('-----------------------------------------------------');
     res.risk_uyarilari.forEach(r => lines.push(`- ${r.mesaj}`));
     lines.push('');
