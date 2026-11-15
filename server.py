@@ -160,6 +160,8 @@ class Handler(BaseHTTPRequestHandler):
     def do_GET(self):
         if self.path == "/":
             self._dosya(os.path.join(STATIC, "index.html"), "text/html")
+        elif urllib.parse.urlsplit(self.path).path in ("/platform", "/platform/"):
+            self._dosya(os.path.join(STATIC, "platform.html"), "text/html")
         elif self.path.startswith("/static/"):
             dosya = os.path.join(STATIC, self.path[len("/static/"):])
             ct = "text/css" if dosya.endswith(".css") else "application/javascript" if dosya.endswith(".js") else "text/plain"
