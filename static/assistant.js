@@ -4,13 +4,56 @@
   const text = () => I18N[currentLang];
   let history = [], busy = false, fingerprint = '', revision = 0;
   const chat = $('sageChat'), input = $('sageChatInput'), send = $('sageChatSend');
+  // A small DOM-only Markdown renderer. Raw HTML and links stay inert text.
+  function inlineMarkdown(parent, content) {
+    const pattern = /(\*{1,3})([^*\n]+)\1|`([^`\n]+)`/g;
+    let offset = 0, match;
+    while ((match = pattern.exec(content))) {
+      parent.append(document.createTextNode(content.slice(offset, match.index)));
+      const tag = match[3] !== undefined ? 'code' : match[1].length > 1 ? 'strong' : 'em';
+      const element = document.createElement(tag);
+      element.textContent = match[3] !== undefined ? match[3] : match[2];
+      parent.append(element);
+      offset = pattern.lastIndex;
+    }
+    parent.append(document.createTextNode(content.slice(offset)));
+  }
+  function renderMarkdown(parent, content) {
+    let list = null, listKind = '', code = null;
+    for (const line of content.split('\n')) {
+      if (line.trim().startsWith('```')) {
+        if (code) code = null;
+        else { const pre = document.createElement('pre'); code = document.createElement('code'); pre.append(code); parent.append(pre); }
+        list = null; continue;
+      }
+      if (code) { code.textContent += line + '\n'; continue; }
+      if (!line.trim()) { list = null; continue; }
+      const item = line.match(/^\s*(?:[-*•]\s+|\d+[.)]\s+)(.*)$/);
+      if (item) {
+        const kind = /^\s*\d/.test(line) ? 'ol' : 'ul';
+        if (!list || kind !== listKind) { list = document.createElement(kind); listKind = kind; parent.append(list); }
+        const li = document.createElement('li'); inlineMarkdown(li, item[1]); list.append(li);
+      } else {
+        list = null;
+        const heading = line.match(/^#{1,6}\s+(.*)$/);
+        const paragraph = document.createElement('p');
+        if (heading) { const strong = document.createElement('strong'); inlineMarkdown(strong, heading[1]); paragraph.append(strong); }
+        else inlineMarkdown(paragraph, line);
+        parent.append(paragraph);
+      }
+    }
+  }
   function addMessage(role, content) {
     const div = document.createElement('div');
     div.className = `chat-message ${role}`;
     const label = document.createElement('span');
     label.className = 'chat-message-label';
     label.textContent = role === 'user' ? text().chat_you : 'SAGE';
-    div.append(label, document.createTextNode(content));
+    div.append(label);
+    if (role === 'assistant') {
+      const body = document.createElement('div'); body.className = 'chat-markdown';
+      renderMarkdown(body, content); div.append(body);
+    } else div.append(document.createTextNode(content));
     $('sageChatMessages').append(div);
     div.scrollIntoView({block:'nearest'});
     return div;
@@ -84,7 +127,7 @@
     const message = input.value.trim();
     if (!message || busy) return;
     const requestRevision = revision;
-    const previous = history.slice(-12);
+    const previous = history.slice(-12).map(turn => ({...turn, content:turn.content.slice(0,6000)}));
     addMessage('user',message);
     input.value=''; input.dispatchEvent(new Event('input'));
     busy=true;send.disabled=true;refreshLabels();

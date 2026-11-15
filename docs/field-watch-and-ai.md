@@ -29,7 +29,7 @@ Copy `.env.example` to `.env` and set `NVIDIA_API_KEY`. The stdlib server reads 
 
 Run `python3 server.py`, then open `/platform`. The model can be overridden by `NVIDIA_MODEL`. `POST /api/chat` accepts `message`, `history`, `context`, and `lang`. Provider calls have a 75-second timeout, 2 simultaneous request slots and an in-memory per-IP limit of 6 attempts/minute. This is appropriate for a local demo; an unrestricted public production deployment would need authenticated usage and shared quotas. Static-file paths are confined to `static/`, body sizes are bounded and cross-origin POSTs are rejected.
 
-Provider failures return readable error codes without provider response bodies or credentials. Failed questions remain editable for retry. All chat output renders as text rather than HTML.
+Provider failures return readable error codes without provider response bodies or credentials. Failed questions remain editable for retry. Chat supports basic bold, emphasis, lists, headings and code through DOM-only rendering; raw HTML and links remain inert text. Default replies are short, practical and use everyday language.
 
 ## Deliberately not claimed
 

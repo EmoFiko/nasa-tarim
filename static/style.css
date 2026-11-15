@@ -2461,3 +2461,10 @@ a.action-sample-btn { text-decoration: none; display: inline-flex; align-items: 
 .chat-disclosure { margin: 10px 18px 14px; color: var(--c-earth-muted); font-size: 10px; line-height: 1.7; }
 @media (max-width:640px) { .health-panel-header { align-items: flex-start; flex-direction: column; gap: 0; } .health-cards { grid-template-columns: 1fr; } .sage-chat { right: 12px; bottom: 82px; width: calc(100vw - 24px); height: min(740px,calc(100dvh - 100px)); } .sage-chat-launch { right: 16px; bottom: 16px; } }
 .health-cards { grid-template-columns: repeat(auto-fit,minmax(min(100%,230px),1fr)); }
+.chat-markdown { white-space: normal; }
+.chat-markdown p + p, .chat-markdown ul, .chat-markdown ol { margin-top: 10px; }
+.chat-markdown ul, .chat-markdown ol { padding-left: 20px; }
+.chat-markdown li + li { margin-top: 8px; }
+.chat-markdown strong { color: var(--c-earth-deep); font-weight: 700; }
+.chat-markdown code { font: 11px var(--font-mono); background: var(--c-crop-green-tint); padding: 2px 4px; border-radius: 3px; }
+.chat-markdown pre { overflow-x: auto; white-space: pre-wrap; padding: 10px; background: var(--c-field-canvas); border-radius: 5px; }

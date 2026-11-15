@@ -23,6 +23,8 @@ class AdvisorTests(unittest.TestCase):
         self.assertEqual(payload['messages'][-1]['content'],'Explain')
         self.assertNotIn('test-secret',str(result))
         self.assertIn('nemotron-3.5',payload['model'])
+        self.assertEqual(payload['max_tokens'],650)
+        self.assertIn('40-80 words',payload['messages'][0]['content'])
 
     @patch.dict('os.environ',{'NVIDIA_API_KEY':'x'})
     def test_history_cannot_insert_system_messages(self):
