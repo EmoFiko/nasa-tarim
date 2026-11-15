@@ -50,8 +50,13 @@ const I18N = {
     opt_mkt_bahar: 'Spring Crop',
     btn_run_analysis: 'Analyse Field with NASA Data',
     btn_running: 'Querying NASA Satellite Data…',
+    welcome_badge: 'NASA Space Apps Challenge · Decision Support System',
     welcome_title: 'NASA POWER Agroclimatology Crop Rotation Planner',
-    welcome_desc: 'Select your field location on the map and choose observation dates. NASA climate metrics are processed to provide sustainable rotation recommendations.',
+    welcome_desc: 'Select your field on the map or click a fast demo location below. NASA POWER agro-climate metrics and ESA Sentinel-2 phenology are evaluated to compute a restorative 3-year crop succession.',
+    quick_start_lbl: 'Try Instant Demo (Sample Fields):',
+    demo_konya_meta: 'Semi-Arid Dryland Grain',
+    demo_urfa_meta: 'High Thermal & Cotton/Legume',
+    demo_trakya_meta: 'Sunflower/Wheat Rotation',
     pil_1_title: 'Soil Health',
     pil_1_desc: 'Legumes fix atmospheric nitrogen to restore depleted soil.',
     pil_2_title: 'Water Efficiency',
@@ -160,8 +165,13 @@ const I18N = {
     opt_mkt_bahar: 'Bahar',
     btn_run_analysis: 'NASA Verileriyle Analiz Et',
     btn_running: 'NASA Uydu Verileri İnceleniyor…',
+    welcome_badge: 'NASA Space Apps Challenge · Karar Destek Sistemi',
     welcome_title: 'NASA POWER Uydu Verileriyle Ekim Nöbeti Planlayıcı',
-    welcome_desc: 'Haritadan tarla konumunuzu seçin ve ekim dönemini belirleyin. NASA iklim göstergeleri analiz edilerek toprağı yormayan en uygun rotasyon yolları listelenir.',
+    welcome_desc: 'Haritadan tarlanızı seçin veya aşağıdaki tek tıkla hazır örnek tarlalardan birini deneyin. NASA POWER agro-iklim verileri ve ESA Sentinel-2 fenolojisi taranarak toprağı onaran 3 yıllık ekim rotasyonu anında hesaplanır.',
+    quick_start_lbl: 'Hemen Dene (Örnek Tarlalar):',
+    demo_konya_meta: 'Kuru/Yarı-Kurak Hububat',
+    demo_urfa_meta: 'Sıcak Rejim & Pamuk/Baklagil',
+    demo_trakya_meta: 'Ayçiçeği/Buğday Rotasyonu',
     pil_1_title: 'Toprak Sağlığı',
     pil_1_desc: 'Ekim nöbetinde baklagiller toprağa doğal azot bağlar.',
     pil_2_title: 'Su Dengesi',
@@ -1149,7 +1159,25 @@ function setupUIListeners() {
   btnLang.addEventListener('click', () => { setLanguage(currentLang === 'en' ? 'tr' : 'en'); });
   document.getElementById('btnAddHistoryCrop')?.addEventListener('click', addHistoryCropRow);
 
-  // Coord inputs sync to map
+  // Quick demo buttons for Jury
+  document.querySelectorAll('.quick-demo-btn').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const lat = parseFloat(btn.dataset.lat);
+      const lon = parseFloat(btn.dataset.lon);
+      const crop = btn.dataset.crop;
+      const prev = btn.dataset.prev;
+
+      updateCoords(lat, lon);
+      if (leafletMap) leafletMap.setView([lat, lon], 10);
+      if (mevcutCropSelect) mevcutCropSelect.value = crop || '';
+
+      const firstPrevSelect = document.querySelector('.previous-crop-select');
+      if (firstPrevSelect && prev) firstPrevSelect.value = prev;
+
+      showBanner(currentLang === 'tr' ? `${btn.querySelector('.demo-city').textContent} tarlası yüklendi, NASA analizi başlatılıyor…` : `${btn.querySelector('.demo-city').textContent} field loaded, starting NASA analysis…`, true);
+      await runFullAnalysis();
+    });
+  });
   [latInput, lonInput].forEach(inp => {
     inp.addEventListener('change', () => {
       const lat = parseFloat(latInput.value);

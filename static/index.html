@@ -231,8 +231,28 @@
 
       <!-- Initial State Notice -->
       <div id="welcomePlaceholder" class="initial-brief">
+        <span class="brief-tag" data-i18n="welcome_badge">NASA Space Apps Challenge · Karar Destek Sistemi</span>
         <h2 class="brief-headline" data-i18n="welcome_title">NASA POWER Uydu Verileriyle Ekim Nöbeti Planlayıcı</h2>
-        <p class="brief-body" data-i18n="welcome_desc">Haritadan tarla konumunuzu seçin ve ekim dönemini belirleyin. NASA iklim göstergeleri analiz edilerek toprağı yormayan en uygun rotasyon yolları listelenir.</p>
+        <p class="brief-body" data-i18n="welcome_desc">Haritadan tarlanızı seçin veya aşağıdaki tek tıkla hazır örnek tarlalardan birini deneyin. NASA POWER agro-iklim verileri ve ESA Sentinel-2 fenolojisi taranarak toprağı onaran 3 yıllık ekim rotasyonu anında hesaplanır.</p>
+
+        <div class="quick-start-bar">
+          <span class="quick-start-label" data-i18n="quick_start_lbl">Hemen Dene (Örnek Tarlalar):</span>
+          <div class="quick-start-buttons">
+            <button type="button" class="quick-demo-btn" id="btnDemoKonya" data-lat="37.8746" data-lon="32.4932" data-crop="misir" data-prev="bugday">
+              <span class="demo-city">Konya Ovası</span>
+              <span class="demo-meta" data-i18n="demo_konya_meta">Kuru/Yarı-Kurak Hububat</span>
+            </button>
+            <button type="button" class="quick-demo-btn" id="btnDemoUrfa" data-lat="37.1674" data-lon="38.7955" data-crop="pamuk" data-prev="pamuk">
+              <span class="demo-city">Şanlıurfa Harran</span>
+              <span class="demo-meta" data-i18n="demo_urfa_meta">Sıcak Rejim &amp; Pamuk/Baklagil</span>
+            </button>
+            <button type="button" class="quick-demo-btn" id="btnDemoTrakya" data-lat="41.4033" data-lon="27.3578" data-crop="aycicegi" data-prev="bugday">
+              <span class="demo-city">Trakya</span>
+              <span class="demo-meta" data-i18n="demo_trakya_meta">Ayçiçeği/Buğday Rotasyonu</span>
+            </button>
+          </div>
+        </div>
+
         <div class="agri-pillars">
           <div class="pillar">
             <h3 data-i18n="pil_1_title">Toprak Sağlığı</h3>
