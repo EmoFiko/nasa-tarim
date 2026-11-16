@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SAGE — NASA POWER &amp; Copernicus Guided Crop Rotation Engine</title>
+  <base href="/nasa-tarim/">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="static/style.css">
+</head>
+<body>
+
+  <!-- Masthead -->
+  <header class="masthead">
+    <div class="masthead-inner">
+      <div class="brand">
+        <div class="brand-title-wrap">
+          <h1 class="brand-title">SAGE</h1>
+          <span class="brand-acronym-badge">Satellite Agro-climatology &amp; Growth Engine</span>
+        </div>
+        <p class="brand-tagline">NASA POWER &bull; ESA Copernicus &bull; 3 Yıllık Akıllı Ekim Nöbeti ve İklim Analizi</p>
+      </div>
+      <div class="masthead-controls">
+        <a href="platform.html" class="nav-cta-btn" id="btnNavToApp" data-i18n="nav_launch">
+          <svg class="ui-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          <span>Platformu Aç</span>
+        </a>
+        <button id="btnThemeToggle" class="theme-toggle-btn" type="button" title="Karanlık/Aydınlık Tema" aria-label="Tema Değiştir">
+          <svg class="ui-icon icon-moon" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+          <svg class="ui-icon icon-sun" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" style="display:none;"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+        </button>
+        <button id="btnLang" class="lang-toggle-btn" type="button">
+          <span id="langText">English</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Banner -->
+  <div id="statusBanner" class="status-banner" style="display: none;">
+    <span id="statusBannerText"></span>
+  </div>
+
+  <!-- Hero Section (Queñaris-style downward storytelling) -->
+  <section class="sage-landing-hero" id="landingHero">
+    <div class="hero-container">
+      <div class="hero-header-badge">
+        <span class="badge-dot"></span>
+        <span data-i18n="hero_badge">NASA Space Apps Challenge 2026 · Global Contender</span>
+      </div>
+      <h1 class="hero-main-title">SAGE</h1>
+      <p class="hero-slogan" data-i18n="hero_slogan">Toprağın hafızası, uzayın bakışı, çiftçinin kararı.</p>
+      <h2 class="hero-sub-title" data-i18n="hero_title">NASA POWER İklim Verileriyle Üç Yıllık Ekim Nöbeti</h2>
+      <p class="hero-desc" data-i18n="hero_desc">Çiftçinin deneyimini uzaydan gelen iklim bilgisiyle buluşturuyoruz. SAGE, NASA POWER sıcaklık, yağış, güneş ve rüzgar verilerini anlaşılır üç yıllık ekim nöbeti önerilerine dönüştürür. Seçenekleri görün, nedenlerini inceleyin; son karar sizin.</p>
+
+      <div class="hero-cta-group">
+        <a href="platform.html" class="hero-btn-primary" id="btnHeroLaunch" data-i18n="hero_btn_launch">
+          <span>Haritayı ve Karar Motorunu Başlat</span>
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </a>
+        <a href="#howItWorks" class="hero-btn-secondary" data-i18n="hero_btn_explore">
+          <span>Nasıl Çalışır?</span>
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </a>
+      </div>
+
+      <!-- Live Quick Stats -->
+      <div class="hero-stats-strip">
+        <div class="h-stat-item">
+          <span class="h-stat-num">%28–32</span>
+          <span class="h-stat-label" data-i18n="h_stat_1">Doğal Azot &amp; Gübre Tasarrufu</span>
+        </div>
+        <div class="h-stat-item">
+          <span class="h-stat-num">%25–38</span>
+          <span class="h-stat-label" data-i18n="h_stat_2">Su &amp; Pompa Yakıtı Koruması</span>
+        </div>
+        <div class="h-stat-item">
+          <span class="h-stat-num">5 Yıllık OLS</span>
+          <span class="h-stat-label" data-i18n="h_stat_3">İstatistiksel Trend &amp; Z-Skor Anomali</span>
+        </div>
+        <div class="h-stat-item">
+          <span class="h-stat-num">16 Mahsul</span>
+          <span class="h-stat-label" data-i18n="h_stat_4">Bölgesel Verim &amp; Piyasa Fiyatı</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<section class="problem-section" id="problem" aria-labelledby="problemHeading"><div class="problem-intro"><span class="flow-kicker" data-i18n="problem_kicker">NEDEN SAGE?</span><h2 id="problemHeading" data-i18n="problem_heading">İklim değişiyor. Ekim kararları da değişmeli.</h2><div class="slide-controls"><button type="button" id="problemPrev" data-i18n="problem_prev">Önceki slayt</button><span id="problemCount" aria-live="polite">01 / 03</span><button type="button" id="problemNext" data-i18n="problem_next">Sonraki slayt</button></div></div><div class="problem-slides" aria-live="polite"><article class="problem-slide" id="problem-slide-1"><span data-i18n="problem_1_tag">01 / İKLİM</span><h3 data-i18n="problem_1_title">Yağmurun takvimi değişiyor.</h3><p data-i18n="problem_1_desc">Değişken yağış ve sıcaklık, alışılmış ekim kararlarını zorlaştırıyor. Çiftçinin geçmiş deneyimini güncel iklim verileriyle birlikte değerlendirmeye ihtiyacı var.</p></article><article class="problem-slide" id="problem-slide-2" hidden><span data-i18n="problem_2_tag">02 / TOPRAK</span><h3 data-i18n="problem_2_title">Aynı ürün, yorulan toprak.</h3><p data-i18n="problem_2_desc">Tekrarlanan ürün desenleri toprağı ve su kaynaklarını zorlayabilir. Bugünün hasadını düşünürken gelecek yılların üretim gücünü de korumalıyız.</p></article><article class="problem-slide" id="problem-slide-3" hidden><span data-i18n="problem_3_tag">03 / KARAR</span><h3 data-i18n="problem_3_title">Veri çok. Anlaşılır yol haritası az.</h3><p data-i18n="problem_3_desc">İklim tabloları tek başına ne ekileceğini söylemez. SAGE, veriyi ürün geçmişi ve çiftçinin öncelikleriyle buluşturup gerekçeli üç yıllık rotasyon önerilerine çevirir.</p></article></div></section><section class="difference-section"><span class="flow-kicker" data-i18n="difference_kicker">BİZİ FARKLI YAPAN</span><h2 data-i18n="difference_title">Bir skorun ötesinde, nedenleriyle bir plan.</h2><p data-i18n="difference_desc">İklim verisi + ekim geçmişi + çiftçinin öncelikleri. Üç yıllık rotasyon, açıklanan varsayımlar ve son sözü çiftçiye bırakan karar desteği.</p></section>
+
+  <!-- How It Works & Pillars Section (Story flow) -->
+  <section class="sage-features-flow" id="howItWorks">
+    <div class="flow-container">
+      <div class="flow-section-header">
+        <span class="flow-kicker" data-i18n="flow_kicker">NASA &amp; ESA VERİ DÖNGÜSÜ</span>
+        <h3 class="flow-heading" data-i18n="flow_heading">Tarlanın İklim Hafızası, Geleceğin Ekim Planına Nasıl Dönüşüyor?</h3>
+      </div>
+
+      <div class="flow-grid">
+        <div class="flow-card">
+          <div class="flow-step-num">01</div>
+          <span class="flow-tag flow-tag-nasa">NASA POWER Daily &amp; Monthly</span>
+          <h4 data-i18n="flow_1_title">Gerçek Noktasal İklim Telemetrisi</h4>
+          <p data-i18n="flow_1_desc">Tarlanızın koordinatından 2m sıcaklık, düzeltilmiş yağış, güneş radyasyonu ve rüzgar hızı çekilerek yapay tahminler yerine NASA'nın gerçek gözlemleri işlenir.</p>
+        </div>
+
+        <div class="flow-card">
+          <div class="flow-step-num">02</div>
+          <span class="flow-tag flow-tag-si">Statistical Inference (SI)</span>
+          <h4 data-i18n="flow_2_title">5 Yıllık Regresyon &amp; Z-Skor Anomalisi</h4>
+          <p data-i18n="flow_2_desc">En Küçük Kareler (OLS) yöntemiyle sıcaklık ve yağış eğilimi, model güveni (R²) ve son yılın Z-skoru hesaplanarak yapısal kuraklaşma tespit edilir.</p>
+        </div>
+
+        <div class="flow-card">
+          <div class="flow-step-num">03</div>
+          <span class="flow-tag flow-tag-agro">Ekolojik Suksesyon Motoru</span>
+          <h4 data-i18n="flow_3_title">3 Yıllık Azot &amp; Toprak Dengesi</h4>
+          <p data-i18n="flow_3_desc">Önceki yıllarda toprağı tüketen mahsuller ekilmişse sistem 1. yıla baklagilleri koyar; 2. ve 3. yıllarda verim ve su tasarrufunu dengeleyen ardışık yol çizer.</p>
+        </div>
+
+        <div class="flow-card">
+          <div class="flow-step-num">04</div>
+          <span class="flow-tag flow-tag-esa">NASA POWER · Stress Model</span>
+          <h4 data-i18n="flow_4_title">Mevsimsel Stres &amp; Risk Göstergeleri</h4>
+          <p data-i18n="flow_4_desc">NASA POWER aylık iklim verileriyle sıcaklık ve su stresi hesaplanır. NDVI proxy bir model göstergesidir; doğrudan Sentinel-2 bitki sağlığı veya toprak nemi ölçümü yapılmaz.</p>
+        </div>
+      </div>
+
+      <!-- Quick sample trigger to jump directly into map -->
+      <div class="flow-action-banner">
+        <div class="action-banner-text">
+          <h4 data-i18n="banner_action_title">Hemen bir örnek tarlayla deneyin</h4>
+          <p data-i18n="banner_action_desc">Konya, Şanlıurfa veya Trakya koordinatlarıyla NASA analizini tek tıkla başlatın.</p>
+        </div>
+        <div class="action-banner-btns">
+          <a class="action-sample-btn" href="platform.html?demo=konya">Konya Ovası</a>
+          <a class="action-sample-btn" href="platform.html?demo=urfa">Şanlıurfa Harran</a>
+          <a class="action-sample-btn" href="platform.html?demo=trakya">Trakya</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sage-about-section" id="vision">
+    <div class="about-grid">
+      <div><span class="flow-kicker" data-i18n="vision_kicker">VİZYONUMUZ</span>
+        <h2 data-i18n="vision_title">Toprağın hafızası, uzayın bakışı, çiftçinin kararı.</h2></div>
+      <div class="about-copy"><p data-i18n="vision_desc">İklim değişirken çiftçinin deneyimini anlaşılır iklim verileriyle güçlendirmek istiyoruz. SAGE, NASA POWER verilerini kullanarak suyu gözeten, toprağın yenilenmesini destekleyen ve üretimi planlamaya yardımcı olan ekim nöbeti önerileri sunar. Her önerinin nedenini, dayandığı veriyi ve belirsizliklerini açıklarız. Son karar, toprağını en iyi tanıyan çiftçinindir.</p>
+        <p class="vision-growth" data-i18n="vision_growth">Vizyonumuz, bir bölgeden başlayarak farklı havzaların koşullarına uyarlanabilen bir karar destek platformu geliştirmek.</p>
+<div class="mission-note"><span class="flow-kicker" data-i18n="mission_kicker">MİSYONUMUZ</span><h3 data-i18n="mission_title">Uzaydaki veriyi tarlada kullanılabilir kılmak.</h3><p data-i18n="mission_desc">Çiftçilerin suyu, toprağı ve üretim hedeflerini birlikte değerlendirmesine yardımcı olan anlaşılır, gerekçeli ve erişilebilir ekim planları sunmak.</p></div>
+        <div class="vision-values"><article><span>01</span><h3 data-i18n="vision_soil">Yaşayan toprak</h3><p data-i18n="vision_soil_desc">Ekim nöbetiyle toprağın yenilenmesini desteklemek.</p></article>
+        <article><span>02</span><h3 data-i18n="vision_water">Her damlaya değer</h3><p data-i18n="vision_water_desc">Su kaynaklarını gözeten ürün seçimlerini kolaylaştırmak.</p></article>
+        <article><span>03</span><h3 data-i18n="vision_science">Erişilebilir bilim</h3><p data-i18n="vision_science_desc">Veriyi, yöntemleri ve belirsizlikleri anlaşılır kılmak.</p></article></div>
+      </div>
+    </div>
+  </section>
+  <section class="sage-about-section team-section" id="team">
+    <div class="flow-section-header"><span class="flow-kicker" data-i18n="team_kicker">TAKIMIMIZ</span>
+      <h2 class="flow-heading" data-i18n="team_title">Aynı gelecek için, farklı bakış açıları.</h2>
+      <p class="team-intro" data-i18n="team_desc">SAGE'i geliştirirken yazılımı, iklim verisini ve sürdürülebilir tarım yaklaşımını aynı sorunun etrafında buluşturuyoruz: Daha dayanıklı bir tarımı nasıl mümkün kılarız?</p></div>
+<div class="team-members"><article class="team-member"><span class="member-monogram" aria-hidden="true">EF</span><h3>Emirhan Fikret</h3></article><article class="team-member"><span class="member-monogram" aria-hidden="true">BY</span><h3>Bora Yılmaz</h3></article><article class="team-member"><span class="member-monogram" aria-hidden="true">ÖFK</span><h3>Ömer Fahrettin Kılıç</h3></article><article class="team-member"><span class="member-monogram" aria-hidden="true">AA</span><h3>Asya Alpsoy</h3></article><article class="team-member"><span class="member-monogram" aria-hidden="true">DŞ</span><h3>Defne Şahin</h3></article></div>
+    <div class="team-disciplines"><span data-i18n="team_software">Yazılım &amp; ürün geliştirme</span><span data-i18n="team_data">Veri &amp; iklim analizi</span><span data-i18n="team_agro">Sürdürülebilir tarım</span></div>
+    <a class="hero-btn-primary" href="platform.html" data-i18n="nav_launch">Platformu Aç</a>
+  </section>
+  <section class="sage-about-section contact-section" id="contact"><div><span class="flow-kicker" data-i18n="contact_kicker">BİRLİKTE GELİŞTİRELİM</span><h2 data-i18n="contact_title">Tarladan gelen sorulara açığız.</h2><p data-i18n="contact_desc">Geri bildirim, iş birliği ve teknik sorular için bize e-posta gönderebilirsiniz.</p></div><a class="hero-btn-secondary" href="mailto:Projectsagetr06@gmail.com" data-i18n="contact_link">Projectsagetr06@gmail.com</a></section>
+  <footer class="sage-footer"><a href="." class="brand-title">SAGE</a><p>Satellite Agro-climatology &amp; Growth Engine</p><nav aria-label="Footer"><a href="#vision" data-i18n="vision_kicker">Vizyonumuz</a><a href="#team" data-i18n="team_kicker">Takımımız</a><a href="#contact" data-i18n="contact_kicker">Birlikte Geliştirelim</a><a href="https://github.com/kedybaykedy-bit/nasa-tarim">GitHub</a></nav></footer>
+
+  <script src="static/i18n.js"></script>
+  <script src="static/landing.js"></script>
+</body>
+</html>
