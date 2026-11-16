@@ -4,11 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SAGE — NASA POWER &amp; Copernicus Guided Crop Rotation Engine</title>
+  <base href="/nasa-tarim/">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-  <link rel="stylesheet" href="/static/style.css">
+  <link rel="stylesheet" href="static/style.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
@@ -24,7 +25,7 @@
         <p class="brand-tagline">NASA POWER &bull; ESA Copernicus &bull; 3 Yıllık Akıllı Ekim Nöbeti ve İklim Analizi</p>
       </div>
       <div class="masthead-controls">
-        <a href="/" class="nav-cta-btn" id="btnNavToApp" data-i18n="nav_home">
+        <a href="." class="nav-cta-btn" id="btnNavToApp" data-i18n="nav_home">
           <svg class="ui-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
           <span>Ana Sayfa</span>
         </a>
@@ -581,8 +582,9 @@
   </section>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script src="/static/i18n.js"></script>
-  <script src="/static/app.js"></script>
-  <script src="/static/assistant.js"></script>
+  <script src="static/_config.js"></script>
+  <script src="static/i18n.js"></script>
+  <script src="static/app.js"></script>
+  <script src="static/assistant.js"></script>
 </body>
 </html>

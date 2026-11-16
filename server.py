@@ -158,6 +158,7 @@ class Handler(BaseHTTPRequestHandler):
         self.send_header("Content-Length", str(len(b)))
         self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
         self.send_header("Access-Control-Allow-Headers", "Content-Type")
+        self.send_header("Access-Control-Allow-Origin", "*")
         self.end_headers()
         self.wfile.write(b)
 
@@ -168,6 +169,7 @@ class Handler(BaseHTTPRequestHandler):
         self.send_response(200)
         self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
         self.send_header("Access-Control-Allow-Headers", "Content-Type")
+        self.send_header("Access-Control-Allow-Origin", "*")
         self.end_headers()
 
     def _dosya(self, path, content_type):
@@ -198,10 +200,7 @@ class Handler(BaseHTTPRequestHandler):
             self._json({"error": "bulunamadı"}, 404)
 
     def do_POST(self):
-        origin = self.headers.get('Origin')
-        if origin and urllib.parse.urlsplit(origin).netloc != self.headers.get('Host'):
-            self._json({'error':'origin_not_allowed'}, 403)
-            return
+        # Cross-origin is allowed (github.io frontend <- vercel backend).
         try:
             length = int(self.headers.get("Content-Length", 0))
         except ValueError:

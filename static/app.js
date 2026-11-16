@@ -216,7 +216,7 @@ let loadedCropsData = {};
 
 async function loadCrops() {
   try {
-    const res = await fetch('/api/bitkiler');
+    const res = await fetch((window.SAGE_API_BASE || '') + '/api/bitkiler');
     if (!res.ok) throw new Error('Crops could not be loaded');
     loadedCropsData = await res.json();
 
@@ -435,7 +435,7 @@ async function runFullAnalysis() {
   btnAnalyze.querySelector('.btn-label').textContent = I18N[currentLang].btn_running;
 
   try {
-    const res = await fetch('/api/analiz', {
+    const res = await fetch((window.SAGE_API_BASE || '') + '/api/analiz', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ lat, lon, start, end, crop: mevcutCropSelect.value, lang: currentLang })
@@ -535,7 +535,7 @@ async function runRotationCalculation() {
   };
 
   try {
-    const res = await fetch('/api/rotasyon', {
+    const res = await fetch((window.SAGE_API_BASE || '') + '/api/rotasyon', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
